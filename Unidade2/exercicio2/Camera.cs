@@ -10,11 +10,11 @@ namespace exercicio2
         private double zoomY = 0.0;
 
         
-        public void pan(Vector3f delta_pan)
+        /*public void pan(Vector3f delta_pan)
         {
             matrix.m03 += delta_pan.x; 
             matrix.m13 += delta_pan.y;
             matirx.m23 += delta_pan.z;
-        }
+        }*/
     }
 }

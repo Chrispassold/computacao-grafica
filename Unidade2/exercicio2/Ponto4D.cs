@@ -1,4 +1,4 @@
-namespace exercicio1
+namespace exercicio2
 {
     internal class Ponto4D
     {

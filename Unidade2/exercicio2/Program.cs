@@ -3,7 +3,7 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System.Drawing;
 
-namespace exercicio1
+namespace exercicio2
 {
     class Render : GameWindow
     {
