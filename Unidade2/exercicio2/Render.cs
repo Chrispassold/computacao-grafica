@@ -10,7 +10,8 @@ namespace exercicio2
         Mundo mundo = new Mundo();
         public Render(int width, int height) : base(width, height)
         {
-            Camera camera = new Camera(this);
+            this.camera = new Camera(this);
+            camera.InitOrtho(-300, 300, -300, 300);//camera
         }
 
         protected override void OnLoad(EventArgs e)
@@ -25,7 +26,7 @@ namespace exercicio2
 
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
-            GL.Ortho(-300, 300, -300, 300, -1, 1);//camera
+            camera.Ortho();//camera
         }
         protected override void OnRenderFrame(FrameEventArgs e)
         {
