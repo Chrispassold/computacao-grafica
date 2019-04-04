@@ -11,7 +11,7 @@ namespace exercicio2
         private Ponto4D ptoOrigem = new Ponto4D(0, 0);
         public void Desenha()
         {
-            Console.WriteLine("[6] .. Desenha");
+            //Console.WriteLine("[6] .. Desenha");
 
             // GL.LineWidth(5);
             // GL.PointSize(10);
@@ -44,7 +44,7 @@ namespace exercicio2
 
         public void SRU3D()
         {
-            Console.WriteLine("[5] .. SRU3D");
+            //Console.WriteLine("[5] .. SRU3D");
 
             GL.LineWidth(1);
             GL.Begin(PrimitiveType.Lines);

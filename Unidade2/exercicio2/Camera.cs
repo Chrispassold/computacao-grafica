@@ -1,7 +1,13 @@
+using System;
+using OpenTK;
+using OpenTK.Graphics.OpenGL;
+using OpenTK.Input;
 namespace exercicio2
 {
     public class Camera
     {
+        GameWindow window;
+
         private double panX = 0.0;
         private double panY = 0.0;
         private double panZ = 0.0;
@@ -9,12 +15,25 @@ namespace exercicio2
         private double zoomX = 0.0;
         private double zoomY = 0.0;
 
-        
-        /*public void pan(Vector3f delta_pan)
+        public Camera(GameWindow window)
         {
-            matrix.m03 += delta_pan.x; 
-            matrix.m13 += delta_pan.y;
-            matirx.m23 += delta_pan.z;
-        }*/
+            this.window = window;
+            window.KeyDown += KeyDown;
+        }
+
+
+        private void KeyDown(object sender, KeyboardKeyEventArgs e)
+        {
+            Console.WriteLine("KeyDown: {0}, {1}", e.Key, sender);
+        }
+
+        /*
+                private void HandleKeyboard()
+                {
+                //var keyState = Keyboard.GetState();
+
+                }
+
+        */
     }
 }
