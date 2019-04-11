@@ -33,11 +33,13 @@ namespace exercicio3
 
             for (int i = 0; i < triangles.Length; i++)
             {
+                GL.Color3(Color.Blue);
                 GL.Begin(PrimitiveType.Lines);
                 GL.Vertex2(triangles[i][0].X, triangles[i][0].Y);
                 GL.Vertex2(triangles[i][1].X, triangles[i][1].Y);
                 GL.End();
 
+                GL.Color3(Color.Red);
                 createCircle(triangles[i][0]);
             }
         }
