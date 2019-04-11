@@ -11,46 +11,35 @@ namespace exercicio3
         private Ponto4D ptoOrigem = new Ponto4D(0, 0);
         public void Desenha()
         {
-            //Console.WriteLine("[6] .. Desenha");
-
-            // GL.LineWidth(5);
-            // GL.PointSize(10);
-            // GL.Color3(Color.Black);
-
-            // GL.Begin(PrimitiveType.Points);
-            //     GL.Vertex2(ptoDirCim.X, ptoDirCim.Y);
-            // GL.End();
-
-            // GL.Color3(Color.Yellow);
-            // GL.Begin(PrimitiveType.Lines);
-            //     GL.Vertex2(ptoOrigem.X, ptoOrigem.Y);
-            //     GL.Vertex2(ptoDirCim.X, ptoDirCim.Y);
-            // GL.End();
-
             GL.PointSize(5);
             GL.Color3(Color.Yellow);
 
             int altura = 200;
             int size = altura / 2;
 
-            Ponto4D[] triangle = new Ponto4D[]{
-                new Ponto4D(0, size, 0),
-                new Ponto4D((-1) * size, (-1) * size, 0),
-                new Ponto4D(size, (-1) * size, 0)
-            };
-
             GL.LineWidth(5);
             GL.PointSize(10);
             GL.Color3(Color.Black);
 
-            GL.Begin(PrimitiveType.Points);
-            for (int i = 0; i < triangle.Length; i++)
-            {
-                GL.Vertex2(triangle[i].X, triangle[i].Y);
-                this.createCircle(triangle[i]);
-            }
-            GL.End();
+            Ponto4D pntTriangle1 = new Ponto4D(0, size, 0);
+            Ponto4D pntTriangle2 = new Ponto4D((-1) * size, (-1) * size, 0);
+            Ponto4D pntTriangle3 = new Ponto4D(size, (-1) * size, 0);
 
+            Ponto4D[][] triangles = new Ponto4D[][]{
+                new Ponto4D[]{pntTriangle1, pntTriangle2},
+                new Ponto4D[]{pntTriangle2, pntTriangle3},
+                new Ponto4D[]{pntTriangle3, pntTriangle1},
+            };
+
+            for (int i = 0; i < triangles.Length; i++)
+            {
+                GL.Begin(PrimitiveType.Lines);
+                GL.Vertex2(triangles[i][0].X, triangles[i][0].Y);
+                GL.Vertex2(triangles[i][1].X, triangles[i][1].Y);
+                GL.End();
+
+                createCircle(triangles[i][0]);
+            }
         }
 
         public void SRU3D()
