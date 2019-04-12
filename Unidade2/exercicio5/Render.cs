@@ -7,11 +7,13 @@ namespace exercicio5
     public class Render : GameWindow
     {
         Camera camera;
-        Mundo mundo = new Mundo();
+        Mundo mundo ;
         public Render(int width, int height) : base(width, height)
         {
             this.camera = new Camera(this);
             camera.InitOrtho(-400, 400, -400, 400);//camera
+
+            this.mundo = new Mundo(camera);
         }
 
         protected override void OnLoad(EventArgs e)
@@ -38,8 +40,8 @@ namespace exercicio5
             GL.ClearColor(Color.White);
             GL.MatrixMode(MatrixMode.Modelview);
 
-            mundo.SRU3D();
-            mundo.Desenha();
+            SRU3D.Render();
+            mundo.Render();
 
             this.SwapBuffers();
         }
