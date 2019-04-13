@@ -30,5 +30,9 @@ namespace exercicio5
         public double Y { get => y; set => y = value; }
         public double Z { get => z; set => z = value; }
 
+         public override string ToString(){
+             return string.Format("[Ponto4D => x: {0}, y:{1}, z:{2}]", this.X, this.Y, this.Z);
+        }
+
     }
 }
