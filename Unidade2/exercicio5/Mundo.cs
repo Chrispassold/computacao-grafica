@@ -21,8 +21,9 @@ namespace exercicio5
 
         static double angulo = 45;
         static double raio = 100;
-        Ponto4D ponto1 = Ponto4D.InstanceFrom(angulo, 0);
-        Ponto4D ponto2 = Ponto4D.InstanceFrom(angulo, raio);
+        static Ponto4D ponto1 = Ponto4D.InstanceFrom(angulo, 0);
+        static Ponto4D ponto2 = Ponto4D.InstanceFrom(angulo, raio, ponto1);
+        Ponto4D ponto3 = Ponto4D.InstanceFrom(angulo, raio);
 
         Camera camera;
 
@@ -34,9 +35,15 @@ namespace exercicio5
 
         public void Render()
         {
-            GL.LineWidth(5);
-            GL.Color3(Color.Blue);
 
+            GL.LineWidth(5);
+
+            GL.Color3(Color.Red);
+            GL.Begin(PrimitiveType.Points);
+            GL.Vertex2(ponto3.X, ponto3.Y);
+            GL.End();
+
+            GL.Color3(Color.Blue);
             GL.Begin(PrimitiveType.Lines);
             GL.Vertex2(ponto1.X, ponto1.Y);
             GL.Vertex2(ponto2.X, ponto2.Y);
@@ -45,28 +52,24 @@ namespace exercicio5
 
         public void SetPonto1(double x, double y)
         {
-            this.ponto1.X = x;
-            this.ponto1.Y = y;
+            ponto1.X = x;
+            ponto1.Y = y;
         }
 
         public void SetPonto2(Ponto4D ponto)
         {
-            this.ponto2 = ponto;
+            ponto2 = ponto;
         }
         public void SetPonto2(double x, double y)
         {
-            this.ponto2.X = x;
-            this.ponto2.Y = y;
+            ponto2.X = x;
+            ponto2.Y = y;
         }
 
         public void OnKeyPressed(KeyboardKeyEventArgs key)
         {
 
             Console.WriteLine(key.Key.ToString());
-            Console.WriteLine("ponto1: " + ponto1.ToString());
-            Console.WriteLine("ponto2: " + ponto2.ToString());
-            Console.WriteLine("angulo: " + angulo);
-            Console.WriteLine("raio: " + raio);
 
             //movimentar esquerda (Q)
             if (Key.Q.Equals(key.Key))
@@ -86,30 +89,36 @@ namespace exercicio5
             //diminuir (A)
             if (Key.A.Equals(key.Key))
             {
-                raio -= 2;
-                ponto2 = Ponto4D.InstanceFrom(angulo, raio);
+                if (raio >= 0)
+                {
+                    raio -= 2;
+                    ponto2.UpdateRaio(raio);
+                }
             }
 
             //aumentar (S)
             if (Key.S.Equals(key.Key))
             {
                 raio += 2;
-                ponto2 = Ponto4D.InstanceFrom(angulo, raio);
+                ponto2.UpdateRaio(raio);
             }
 
             //rotacionar sentido anti horario (diminuir) (Z)
             if (Key.Z.Equals(key.Key))
             {
                 angulo += 1;
-                this.ponto2.UpdateAngulo(angulo);
+                ponto2.UpdateAngulo(angulo);
             }
 
             //rotacionar sentido horario (aumentar) (X)
             if (Key.X.Equals(key.Key))
             {
                 angulo -= 1;
-                this.ponto2.UpdateAngulo(angulo);
+                ponto2.UpdateAngulo(angulo);
             }
+
+            Console.WriteLine("ponto1: " + ponto1.ToString());
+            Console.WriteLine("ponto2: " + ponto2.ToString());
 
         }
     }
