@@ -20,8 +20,9 @@ namespace exercicio5
 
 
         static double angulo = 45;
-        Ponto4D ponto1 = PtoCirculo(angulo, CalcularModulo(0, 0));
-        Ponto4D ponto2 = PtoCirculo(angulo, CalcularModulo(100, 100));
+        static double raio = 100;
+        Ponto4D ponto1 = Ponto4D.InstanceFrom(angulo, 0);
+        Ponto4D ponto2 = Ponto4D.InstanceFrom(angulo, raio);
 
         Camera camera;
 
@@ -44,12 +45,18 @@ namespace exercicio5
 
         public void SetPonto1(double x, double y)
         {
-            this.ponto1 = PtoCirculo(angulo, CalcularModulo(x, y));
+            this.ponto1.X = x;
+            this.ponto1.Y = y;
         }
 
+        public void SetPonto2(Ponto4D ponto)
+        {
+            this.ponto2 = ponto;
+        }
         public void SetPonto2(double x, double y)
         {
-            this.ponto2 = PtoCirculo(angulo, CalcularModulo(x, y));
+            this.ponto2.X = x;
+            this.ponto2.Y = y;
         }
 
         public void OnKeyPressed(KeyboardKeyEventArgs key)
@@ -59,67 +66,52 @@ namespace exercicio5
             Console.WriteLine("ponto1: " + ponto1.ToString());
             Console.WriteLine("ponto2: " + ponto2.ToString());
             Console.WriteLine("angulo: " + angulo);
+            Console.WriteLine("raio: " + raio);
 
-            //movimentar esquerda
+            //movimentar esquerda (Q)
             if (Key.Q.Equals(key.Key))
             {
-                if (ponto1.X > SRU3D.NX)
-                {
-                    this.SetPonto1(ponto1.X - 2, ponto1.Y);
-                    this.SetPonto2(ponto2.X - 2, ponto2.Y);
-                }
+                this.SetPonto1(ponto1.X - 2, ponto1.Y);
+                this.SetPonto2(ponto2.X - 2, ponto2.Y);
 
             }
 
-            //movimentar direita
+            //movimentar direita (W)
             if (Key.W.Equals(key.Key))
             {
                 this.SetPonto1(ponto1.X + 2, ponto1.Y);
                 this.SetPonto2(ponto2.X + 2, ponto2.Y);
             }
 
-            //diminuir
+            //diminuir (A)
             if (Key.A.Equals(key.Key))
             {
-                this.SetPonto2(ponto2.X - 2, ponto2.Y - 2);
+                raio -= 2;
+                ponto2 = Ponto4D.InstanceFrom(angulo, raio);
             }
 
-            //aumentar
+            //aumentar (S)
             if (Key.S.Equals(key.Key))
             {
-                this.SetPonto2(ponto2.X + 2, ponto2.Y + 2);
+                raio += 2;
+                ponto2 = Ponto4D.InstanceFrom(angulo, raio);
             }
 
-            //rotacionar sentido anti horario (diminuir)
+            //rotacionar sentido anti horario (diminuir) (Z)
             if (Key.Z.Equals(key.Key))
             {
                 angulo += 1;
-                this.SetPonto2(ponto2.X, ponto2.Y);
+                this.ponto2.UpdateAngulo(angulo);
             }
 
-            //rotacionar sentido horario (aumentar)
+            //rotacionar sentido horario (aumentar) (X)
             if (Key.X.Equals(key.Key))
             {
-                angulo += -1;
-                this.SetPonto2(ponto2.X, ponto2.Y);
+                angulo -= 1;
+                this.ponto2.UpdateAngulo(angulo);
             }
 
         }
-
-        private static Ponto4D PtoCirculo(double angulo, double raio)
-        {
-            Ponto4D pto = new Ponto4D();
-            pto.X = (raio * Math.Cos(Math.PI * angulo / 180.0));
-            pto.Y = (raio * Math.Sin(Math.PI * angulo / 180.0));
-            pto.Z = 0;
-            return (pto);
-        }
-
-        private static double CalcularModulo(double x, double y)
-        {
-            return Math.Sqrt(x * x + y * y);
-        }
-
     }
 
 }

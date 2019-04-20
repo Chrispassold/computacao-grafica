@@ -1,3 +1,4 @@
+using System;
 namespace exercicio5
 {
     internal class Ponto4D
@@ -14,24 +15,33 @@ namespace exercicio5
             this.w = 1;
         }
 
-        // Operator overloaded
-        public static Ponto4D operator +(Ponto4D pto1, Ponto4D pto2) => new Ponto4D(pto1.X + pto2.X, pto1.Y + pto2.Y, pto1.Z + pto2.Z);
-
-        public static Ponto4D operator --(Ponto4D pto) => new Ponto4D(-pto.X, -pto.Y, -pto.Z);
-
-        //TODO: Testar estas funções e ver se precisam existir
-        // public static bool operator ==(Ponto4D pto1, Ponto4D pto2) {
-        //   return ((pto1.X == pto2.X) && (pto1.Y == pto2.Y) && (pto1.Z == pto2.Z));
-        // }
-        // public static bool operator !=(Ponto4D pto1, Ponto4D pto2) {
-        //   return ((pto1.X != pto2.X) && (pto1.Y != pto2.Y) && (pto1.Z != pto2.Z));
-        // }
         public double X { get => x; set => x = value; }
         public double Y { get => y; set => y = value; }
         public double Z { get => z; set => z = value; }
 
-         public override string ToString(){
-             return string.Format("[Ponto4D => x: {0}, y:{1}, z:{2}]", this.X, this.Y, this.Z);
+        public static Ponto4D InstanceFrom(double angulo, double raio)
+        {
+            Ponto4D ponto = new Ponto4D(raio, raio, raio);
+            ponto.UpdateAngulo(angulo);
+
+            return ponto;
+        }
+
+        public void UpdateAngulo(double angulo)
+        {
+            this.X = (this.Raio() * Math.Cos(Math.PI * angulo / 180.0));
+            this.Y = (this.Raio() * Math.Sin(Math.PI * angulo / 180.0));
+            this.Z = 0;
+        }
+
+        private double Raio()
+        {
+            return Math.Sqrt(this.x * this.x + this.y * this.y);
+        }
+
+        public override string ToString()
+        {
+            return string.Format("[Ponto4D => x: {0}, y:{1}, z:{2}]", this.X, this.Y, this.Z);
         }
 
     }
