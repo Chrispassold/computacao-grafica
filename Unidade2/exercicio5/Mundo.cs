@@ -37,12 +37,6 @@ namespace exercicio5
         {
 
             GL.LineWidth(5);
-
-            GL.Color3(Color.Red);
-            GL.Begin(PrimitiveType.Points);
-            GL.Vertex2(ponto3.X, ponto3.Y);
-            GL.End();
-
             GL.Color3(Color.Blue);
             GL.Begin(PrimitiveType.Lines);
             GL.Vertex2(ponto1.X, ponto1.Y);
