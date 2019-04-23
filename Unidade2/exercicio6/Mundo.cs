@@ -169,6 +169,10 @@ Veja o exemplo no vídeo a baixo.
                     selected.Y -= 1;
                 }
             }
+
+            if (selected != null)
+                this.UpdateSplinePoints();
+
         }
 
         private void DefineSelected(int index)
@@ -186,7 +190,7 @@ Veja o exemplo no vídeo a baixo.
             if (this.controlSplines < 50)
             {
                 this.controlSplines++;
-                this.splinePoints = GetSplines();
+                this.UpdateSplinePoints();
             }
         }
 
@@ -195,8 +199,13 @@ Veja o exemplo no vídeo a baixo.
             if (this.controlSplines > 1)
             {
                 this.controlSplines--;
-                this.splinePoints = GetSplines();
+                this.UpdateSplinePoints();
             }
+        }
+
+        private void UpdateSplinePoints()
+        {
+            this.splinePoints = GetSplines();
         }
 
         private void DrawSpline()
