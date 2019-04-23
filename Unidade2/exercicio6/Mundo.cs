@@ -3,6 +3,7 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System.Drawing;
 using OpenTK.Input;
+using System.Collections.Generic;
 
 namespace exercicio6
 {
@@ -22,38 +23,71 @@ ATENÇÃO: não é permitido usar o comando spline do OpenGL, sendo só permitid
 Veja o exemplo no vídeo a baixo.
          */
 
-        Ponto4D[] arrPontos = new Ponto4D[]{
-            new Ponto4D(-100, 100, true),//1 pontoTopLeft
-            new Ponto4D(100, 100),//2 pontoTopRight
-            new Ponto4D(-100, -100),//3 pontoBottomLeft
-            new Ponto4D(100, -100)//4 pontoBottomRight
-        };
+        List<Ponto4D> arrPontos;
 
-        Ponto4D selected;
+        Ponto4D selected = null;
 
         Camera camera;
+
+        double controlSplines = 0d;
+
+        List<Ponto4D> splinePoints = new List<Ponto4D>();
 
         public Mundo(Camera camera)
         {
             this.camera = camera;
             camera.SetOnKeyDownListener(this);
+            this.init();
+        }
+
+        private void init()
+        {
+            this.arrPontos = new List<Ponto4D>(){
+                new Ponto4D(-100, -100),
+                new Ponto4D(-100, 100),
+                new Ponto4D(100, 100),
+                new Ponto4D(100, -100),
+            };
+
+            this.controlSplines = 1;
+            this.splinePoints = GetSplines();
         }
 
         public void Render()
         {
 
             GL.PointSize(10);
-            GL.Begin(PrimitiveType.Points);
-            for (int i = 0; i < arrPontos.Length; i++)
+            GL.LineWidth(2);
+            Ponto4D lastPoint = null;
+            for (int i = 0; i < arrPontos.Count; i++)
             {
                 Ponto4D ponto = arrPontos[i];
 
-                if (ponto.IsSelected())
-                    this.selected = ponto;
-                ponto.GLVertex2();
-            }
-            GL.End();
+                if (this.selected == null)
+                {
+                    ponto.SetSelected(true);
+                }
 
+                if (ponto.IsSelected())
+                {
+                    this.selected = ponto;
+                }
+
+                GL.Begin(PrimitiveType.Points);
+                ponto.GLVertex();
+                GL.End();
+
+                if (lastPoint != null)
+                {
+                    GL.Begin(PrimitiveType.Lines);
+                    lastPoint.GLVertex(Color.Cyan);
+                    ponto.GLVertex(Color.Cyan);
+                    GL.End();
+                }
+                lastPoint = ponto;
+            }
+
+            this.DrawSpline();
 
         }
 
@@ -79,7 +113,23 @@ Veja o exemplo no vídeo a baixo.
                 case Key.B:
                     Move(key.Key);
                     break;
+                case Key.R:
+                    Reset();
+                    break;
+                case Key.Plus:
+                case Key.KeypadPlus:
+                    IncreaseSplinePoints();
+                    break;
+                case Key.Minus:
+                case Key.KeypadMinus:
+                    DecreaseSplinePoints();
+                    break;
             }
+        }
+
+        private void Reset()
+        {
+            this.init();
         }
 
         private void Move(Key key)
@@ -123,12 +173,93 @@ Veja o exemplo no vídeo a baixo.
 
         private void DefineSelected(int index)
         {
-            for (int i = 0; i < arrPontos.Length; i++)
+            for (int i = 0; i < arrPontos.Count; i++)
             {
                 bool selected = i == index;
 
                 arrPontos[i].SetSelected(selected);
             }
+        }
+
+        public void IncreaseSplinePoints()
+        {
+            if (this.controlSplines < 50)
+            {
+                this.controlSplines++;
+                this.splinePoints = GetSplines();
+            }
+        }
+
+        public void DecreaseSplinePoints()
+        {
+            if (this.controlSplines > 1)
+            {
+                this.controlSplines--;
+                this.splinePoints = GetSplines();
+            }
+        }
+
+        private void DrawSpline()
+        {
+            Ponto4D lastSplinePoint = null;
+            foreach (Ponto4D point in this.splinePoints)
+            {
+                if (lastSplinePoint != null)
+                {
+                    GL.Begin(PrimitiveType.Lines);
+                    GL.Color3(Color.Yellow);
+                    lastSplinePoint.GLVertex(Color.Yellow);
+                    point.GLVertex(Color.Yellow);
+                    GL.End();
+                }
+
+                lastSplinePoint = point;
+            }
+        }
+
+        private List<Ponto4D> GetSplines()
+        {
+            List<Ponto4D> splinePoints = new List<Ponto4D>();
+            for (int i = 0; i <= this.controlSplines; i++)
+            {
+                double t = (1 / this.controlSplines) * i;
+                splinePoints.Add(this.GetSplinesPoint(t));
+            }
+            return splinePoints;
+        }
+
+        private Ponto4D GetSplinesPoint(double t)
+        {
+
+            Queue<Ponto4D> fila = new Queue<Ponto4D>();
+            Queue<Ponto4D> aux = new Queue<Ponto4D>();
+
+            arrPontos.ForEach(value => fila.Enqueue(value));
+            while (fila.Count > 1)
+            {
+                Ponto4D ponto1 = fila.Dequeue();
+                Ponto4D ponto2 = fila.Peek();
+
+                double newX = CalculateSpline(t, ponto1.X, ponto2.X);
+                double newY = CalculateSpline(t, ponto1.Y, ponto2.Y);
+
+                aux.Enqueue(new Ponto4D(newX, newY));
+
+                if (fila.Count <= 1)
+                {
+                    var tmp = fila;
+                    tmp.Clear();
+                    fila = aux;
+                    aux = tmp;
+                }
+            }
+
+            return fila.Dequeue();
+        }
+
+        private double CalculateSpline(double t, double A, double B)
+        {
+            return A + (B - A) * t;
         }
 
     }

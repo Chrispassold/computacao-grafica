@@ -40,14 +40,20 @@ namespace exercicio6
             return selected;
         }
 
-        public void GLVertex2()
+        public void GLVertex(Color color)
+        {
+            GL.Color3(color);
+            GL.Vertex3(this.X, this.Y, this.Z);
+        }
+        
+        public void GLVertex()
         {
             if (this.selected)
                 GL.Color3(Color.Red);
             else
                 GL.Color3(Color.Black);
 
-            GL.Vertex2(this.X, this.Y);
+            GL.Vertex3(this.X, this.Y, this.Z);
         }
 
     }
