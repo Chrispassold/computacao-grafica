@@ -239,31 +239,25 @@ Veja o exemplo no vídeo a baixo.
 
         private Ponto4D GetSplinesPoint(double t)
         {
+            double pnt1X = CalculateSpline(t, arrPontos[0].X, arrPontos[1].X);
+            double pnt1Y = CalculateSpline(t, arrPontos[0].Y, arrPontos[1].Y);
 
-            Queue<Ponto4D> fila = new Queue<Ponto4D>();
-            Queue<Ponto4D> aux = new Queue<Ponto4D>();
+            double pnt2X = CalculateSpline(t, arrPontos[1].X, arrPontos[2].X);
+            double pnt2Y = CalculateSpline(t, arrPontos[1].Y, arrPontos[2].Y);
 
-            arrPontos.ForEach(value => fila.Enqueue(value));
-            while (fila.Count > 1)
-            {
-                Ponto4D ponto1 = fila.Dequeue();
-                Ponto4D ponto2 = fila.Peek();
+            double pnt3X = CalculateSpline(t, arrPontos[2].X, arrPontos[3].X);
+            double pnt3Y = CalculateSpline(t, arrPontos[2].Y, arrPontos[3].Y);
 
-                double newX = CalculateSpline(t, ponto1.X, ponto2.X);
-                double newY = CalculateSpline(t, ponto1.Y, ponto2.Y);
+            double pnt4X = CalculateSpline(t, pnt1X, pnt2X);
+            double pnt4Y = CalculateSpline(t, pnt1Y, pnt2Y);
 
-                aux.Enqueue(new Ponto4D(newX, newY));
+            double pnt5X = CalculateSpline(t, pnt2X, pnt3X);
+            double pnt5Y = CalculateSpline(t, pnt2Y, pnt3Y);
 
-                if (fila.Count <= 1)
-                {
-                    var tmp = fila;
-                    tmp.Clear();
-                    fila = aux;
-                    aux = tmp;
-                }
-            }
+            double pnt6X = CalculateSpline(t, pnt4X, pnt5X);
+            double pnt6Y = CalculateSpline(t, pnt4Y, pnt5Y);
 
-            return fila.Dequeue();
+            return new Ponto4D(pnt6X, pnt6Y);
         }
 
         private double CalculateSpline(double t, double A, double B)
