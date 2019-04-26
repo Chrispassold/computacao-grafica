@@ -7,7 +7,7 @@ namespace exercicio7
     public class Render : GameWindow
     {
         Camera camera;
-        Mundo mundo ;
+        Mundo mundo;
         public Render(int width, int height) : base(width, height)
         {
             this.camera = new Camera(this);
@@ -36,10 +36,35 @@ namespace exercicio7
             GL.ClearColor(Color.White);
             GL.MatrixMode(MatrixMode.Modelview);
 
-            SRU3D.Render();
+            //SRU3D.Render();
             mundo.Render();
 
             this.SwapBuffers();
         }
+
+        protected override void OnMouseMove(OpenTK.Input.MouseMoveEventArgs e)
+        {
+            base.OnMouseMove(e);
+            camera.OnMouseMove(e);
+        }
+
+        protected override void OnMouseDown(OpenTK.Input.MouseButtonEventArgs e)
+        {
+            base.OnMouseDown(e);
+            camera.OnMouseDown(e);
+        }
+
+        protected override void OnMouseUp(OpenTK.Input.MouseButtonEventArgs e)
+        {
+            base.OnMouseUp(e);
+            camera.OnMouseUp(e);
+        }
+
+        protected override void OnKeyDown(OpenTK.Input.KeyboardKeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+            camera.OnKeyDown(e);
+        }
+
     }
 }
