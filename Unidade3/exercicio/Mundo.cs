@@ -15,12 +15,12 @@ namespace exercicio
 
         public Mundo(double width, double height)
         {
-            camera = new Camera();
+            camera = new Camera((-1) * width, width, (-1) * height, height);
         }
 
         public void Desenha()
         {
-            
+
         }
     }
 }
