@@ -13,13 +13,15 @@ namespace exercicio
         private Poligono ultimoPoligonoSelecionado = null;
         private bool ehPonto = false;
 
-        public Mundo(double width, double height)
+        public Mundo(Camera camera)
         {
-            camera = new Camera((-1) * width, width, (-1) * height, height);
+            this.camera = camera;
         }
 
         public void Desenha()
         {
+
+            
 
         }
     }

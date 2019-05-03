@@ -8,30 +8,17 @@ namespace exercicio
     public class Poligono
     {
 
-        /// <summary>
-        /// Vertices do poligono
-        /// </summary>
         readonly List<Ponto4D> vertices = new List<Ponto4D>();
+        readonly List<Poligono> children = new List<Poligono>();
 
-        /// <summary>
-        /// Atual primitiva do poligono
-        /// </summary>
-        PrimitiveType primitiva = PrimitiveType.LineLoop;
-
-        /// <summary>
-        /// Atual cor do poligono
-        /// </summary>
-        int[] cor = new int[3] { 0, 0, 0 };
-
-        /// <summary>
-        /// BBox do poligono
-        /// </summary>
         readonly BBox bbox = new BBox();
-
-        /// <summary>
-        /// Atual transformacao do poligono
-        /// </summary>
         readonly Transformacao transformacao = new Transformacao();
+
+        PrimitiveType primitiva = PrimitiveType.LineLoop;
+        Ponto4D verticeSelecionado;
+
+        //R G B
+        int[] cor = new int[3] { 0, 0, 0 };
 
 
         /// <summary>
@@ -47,7 +34,7 @@ namespace exercicio
         /// </summary>
         void Desenha()
         {
-
+            
         }
 
     }

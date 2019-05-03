@@ -2,10 +2,7 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL;
 namespace exercicio
 {
-    /// <summary>
-    /// Classe para controlar a câmera sintética.
-    /// </summary>
-    internal class Camera
+    public class Camera
     {
         private double xMin, xMax, yMin, yMax, zMin, zMax;
 

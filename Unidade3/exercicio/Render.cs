@@ -4,12 +4,14 @@ using OpenTK.Graphics.OpenGL;
 using System.Drawing;
 namespace exercicio
 {
-public class Render : GameWindow
+    public class Render : GameWindow
     {
+        Camera camera;
         Mundo mundo;
         public Render(int width, int height) : base(width, height)
         {
-            this.mundo = new Mundo(width, height);
+            this.camera = new Camera((-1) * width, width, (-1) * height, height);
+            this.mundo = new Mundo(this.camera);
         }
 
         protected override void OnLoad(EventArgs e)
@@ -21,7 +23,7 @@ public class Render : GameWindow
             base.OnUpdateFrame(e);
 
             GL.MatrixMode(MatrixMode.Projection);
-            GL.LoadIdentity();            
+            GL.LoadIdentity();
         }
         protected override void OnRenderFrame(FrameEventArgs e)
         {

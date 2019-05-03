@@ -1,10 +1,7 @@
 namespace exercicio
 {
-    internal class Ponto4D
+    public class Ponto4D
     {
-        /// <summary>
-        /// Coordenadas do ponto
-        /// </summary>
         private double x;
         private double y;
         private double z;
