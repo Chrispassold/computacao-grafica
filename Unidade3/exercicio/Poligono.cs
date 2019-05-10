@@ -32,7 +32,7 @@ namespace exercicio
         /// <summary>
         /// Metodo para desenhar o poligono
         /// </summary>
-        void Desenha()
+        public void Desenha()
         {
             
         }

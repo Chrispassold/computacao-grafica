@@ -6,7 +6,8 @@ namespace exercicio
     {
         static void Main(string[] args)
         {
-            Render render = new Render(500, 500);
+            Render render = new Render(600, 600);
+            render.Run();
             render.Run(1.0 / 60.0);
         }
     }

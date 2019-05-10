@@ -2,16 +2,20 @@ using System;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System.Drawing;
+using OpenTK.Input;
+
 namespace exercicio
 {
     public class Render : GameWindow
     {
         Camera camera;
         Mundo mundo;
+        readonly Events events = Events.Instance();
+
         public Render(int width, int height) : base(width, height)
         {
-            this.camera = new Camera((-1) * width, width, (-1) * height, height);
-            this.mundo = new Mundo(this.camera);
+            camera = new Camera(0, width, 0, height);
+            mundo = new Mundo();
         }
 
         protected override void OnLoad(EventArgs e)
@@ -36,6 +40,38 @@ namespace exercicio
             mundo.Desenha();
 
             this.SwapBuffers();
+        }
+
+        protected override void OnMouseDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseDown(e);
+            events.OnMousePressChange(e);
+
+        }
+
+        protected override void OnMouseUp(MouseButtonEventArgs e)
+        {
+            base.OnMouseUp(e);
+            events.OnMousePressChange(e);
+        }
+
+        protected override void OnMouseMove(MouseMoveEventArgs e)
+        {
+            base.OnMouseMove(e);
+            events.OnMouseMove(e.X, e.Y);
+
+        }
+
+        protected override void OnKeyDown(KeyboardKeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+            events.OnKeyPressChange(e.Key, Events.State.ON);
+        }
+
+        protected override void OnKeyUp(KeyboardKeyEventArgs e)
+        {
+            base.OnKeyUp(e);
+            events.OnKeyPressChange(e.Key, Events.State.OFF);
         }
     }
 }
