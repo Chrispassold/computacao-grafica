@@ -8,7 +8,7 @@ namespace exercicio
     {
         private double menorX, menorY, menorZ, maiorX, maiorY, maiorZ;
         private Ponto4D centro = new Ponto4D();
-        public BBox(double menorX = 0, double menorY = 0, double menorZ = 0, double maiorX = 0, double maiorY = 0, double maiorZ = 0)
+        public BBox(double menorX = double.MaxValue, double menorY = double.MaxValue, double menorZ = double.MaxValue, double maiorX = 0, double maiorY = 0, double maiorZ = 0)
         {
             this.menorX = menorX; this.menorY = menorY; this.menorZ = menorZ;
             this.maiorX = maiorX; this.maiorY = maiorY; this.maiorZ = maiorZ;

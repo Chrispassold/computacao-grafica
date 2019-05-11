@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL;
+using System;
 
 namespace exercicio
 {
@@ -49,6 +50,33 @@ namespace exercicio
         public void Draw()
         {
             Helper.Draw(primitiva, vertices);
+        }
+
+        public void DrawBBox() => bbox.desenhaBBox();
+
+        public void SelectVertice(Ponto4D ponto)
+        {
+            verticeSelecionado = DistanceManhattan(ponto);
+        }
+
+        
+        private Ponto4D DistanceManhattan(Ponto4D ponto)
+        {
+            Ponto4D selectedPoint = null;
+            double minValue = double.MaxValue;
+            foreach (var vertice in vertices)
+            {
+                double distanceX = vertice.X - ponto.X;
+                double distanceY = vertice.Y - ponto.Y;
+                double distanceManhattan = Math.Abs(distanceX) + Math.Abs(distanceY);
+                if (minValue > distanceManhattan)
+                {
+                    minValue = distanceManhattan;
+                    selectedPoint = vertice;
+                }
+            }
+
+            return selectedPoint;
         }
 
     }
