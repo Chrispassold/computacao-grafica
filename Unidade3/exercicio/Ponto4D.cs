@@ -18,5 +18,10 @@ namespace exercicio
         public double Y { get => y; set => y = value; }
         public double Z { get => z; set => z = value; }
 
+
+        public Ponto4D Clone()
+        {
+            return new Ponto4D(x, y, z);
+        }
     }
 }

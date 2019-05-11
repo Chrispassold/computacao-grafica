@@ -1,12 +1,13 @@
-using OpenTK;
-using OpenTK.Graphics.OpenGL;
 namespace exercicio
 {
     public class Camera
     {
+
+        private static Camera instance = null;
+
         private double xMin, xMax, yMin, yMax, zMin, zMax;
 
-        public Camera(double xMin = -300, double xMax = 300, double yMin = -300, double yMax = 300, double zMin = -1, double zMax = 1)
+        private Camera(double xMin = -300, double xMax = 300, double yMin = -300, double yMax = 300, double zMin = -1, double zMax = 1)
         {
             this.xMin = xMin; this.xMax = xMax;
             this.yMin = yMin; this.yMax = yMax;
@@ -32,6 +33,22 @@ namespace exercicio
         public void zoomOut()
         {
             xMin -= 2; xMax += 2; yMin -= 2; yMax += 2;
+        }
+
+        public static Camera Initialize(double xMin = -300, double xMax = 300, double yMin = -300, double yMax = 300, double zMin = -1, double zMax = 1)
+        {
+            if (instance == null)
+                instance = new Camera(xMin, xMax, yMin, yMax, zMin, zMax);
+
+            return instance;
+        }
+
+        public static Camera Instance()
+        {
+            if (instance == null)
+                throw new System.Exception("Instance not initialized");
+
+            return instance;
         }
 
     }

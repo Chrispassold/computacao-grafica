@@ -8,13 +8,13 @@ namespace exercicio
 {
     public class Render : GameWindow
     {
-        Camera camera;
         Mundo mundo;
+        Camera camera;
         readonly Events events = Events.Instance();
 
         public Render(int width, int height) : base(width, height)
         {
-            camera = new Camera(0, width, 0, height);
+            camera = Camera.Initialize(-width, width, -height, height);
             mundo = new Mundo();
         }
 
@@ -28,6 +28,7 @@ namespace exercicio
 
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
+            GL.Ortho(0, camera.xmax, 0, camera.ymax, -1, 1);
         }
         protected override void OnRenderFrame(FrameEventArgs e)
         {
@@ -37,9 +38,9 @@ namespace exercicio
             GL.ClearColor(Color.White);
             GL.MatrixMode(MatrixMode.Modelview);
 
-            mundo.Desenha();
+            mundo.Draw();
 
-            this.SwapBuffers();
+            SwapBuffers();
         }
 
         protected override void OnMouseDown(MouseButtonEventArgs e)

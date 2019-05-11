@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using System.Drawing;
 
 namespace exercicio
 {
@@ -20,11 +18,27 @@ namespace exercicio
         //R G B
         int[] cor = new int[3] { 0, 0, 0 };
 
+        public Poligono(List<Ponto4D> pontos)
+        {
+            AddVertices(pontos);
+        }
+
+        /// <summary>
+        /// Metodo para adicionar vertices e atualizar a bbox
+        /// </summary>
+        private void AddVertices(List<Ponto4D> pontos)
+        {
+            pontos.ForEach(it =>
+            {
+                vertices.Add(it);
+                bbox.atualizarBBox(it);
+            });
+        }
 
         /// <summary>
         /// Metodo para alteração da primitiva atual do poligono
         /// </summary>
-        void MudarPrimitiva()
+        void ChangePrimitive()
         {
             primitiva = primitiva.Equals(PrimitiveType.LineLoop) ? PrimitiveType.LineStrip : PrimitiveType.LineLoop;
         }
@@ -32,9 +46,9 @@ namespace exercicio
         /// <summary>
         /// Metodo para desenhar o poligono
         /// </summary>
-        public void Desenha()
+        public void Draw()
         {
-            
+            Helper.Draw(primitiva, vertices);
         }
 
     }

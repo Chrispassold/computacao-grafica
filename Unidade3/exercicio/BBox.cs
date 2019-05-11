@@ -16,9 +16,15 @@ namespace exercicio
 
         public void atribuirBBox(Ponto4D pto)
         {
-            this.menorX = pto.X; this.menorY = pto.Y; this.menorZ = pto.Z;
-            this.maiorX = pto.X; this.maiorY = pto.Y; this.maiorZ = pto.Z;
+            menorX = pto.X; menorY = pto.Y; menorZ = pto.Z;
+            maiorX = pto.X; maiorY = pto.Y; maiorZ = pto.Z;
             processarCentroBBox();
+        }
+
+
+        public void scanLine()
+        {
+
         }
 
         public void atualizarBBox(Ponto4D pto)

@@ -25,20 +25,23 @@ namespace exercicio
 
             public MousePosition(MouseButtonEventArgs e)
             {
+                Camera camera = Camera.Instance();
                 X = e.X;
-                Y = 600 - e.Y;
+                Y = ((int)camera.ymax) - e.Y;
             }
 
             public MousePosition(MouseMoveEventArgs e)
             {
+                Camera camera = Camera.Instance();
                 X = e.X;
-                Y = 600 - e.Y;
+                Y = ((int)camera.ymax) - e.Y;
             }
 
             public MousePosition(int x, int y)
             {
+                Camera camera = Camera.Instance();
                 X = x;
-                Y = 600 - y;
+                Y = ((int)camera.ymax) - y;
             }
 
             public override string ToString()
