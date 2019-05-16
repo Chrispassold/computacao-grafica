@@ -11,9 +11,9 @@ namespace exercicio
         readonly List<Poligono> children = new List<Poligono>();
 
         readonly BBox bbox = new BBox();
-        readonly Transformacao transformacao = new Transformacao();
+        readonly Transformacao4D transformacao = new Transformacao4D();
 
-        Ponto4D verticeSelecionado;
+        Ponto4D verticeSelecionado = null;
 
         //R G B
         public readonly Cor cor = new Cor();
@@ -41,11 +41,21 @@ namespace exercicio
         public void Draw()
         {
             Helper.Draw(PrimitiveType.LineLoop, vertices, cor.GetColor());
+            Console.WriteLine(verticeSelecionado?.ToString());
         }
 
         public void DrawBBox() => bbox.desenhaBBox();
 
-        public bool estaNaBBox(Ponto4D pto) => bbox.estaDentro(pto);
+        public bool estaNaBBox(Ponto4D pto)
+        {
+            if (bbox.estaDentro(pto))
+            {
+                SelectVertice(pto);
+                return true;
+            }
+
+            return false;
+        }
 
         public void SelectVertice(Ponto4D ponto)
         {
@@ -71,6 +81,7 @@ namespace exercicio
 
             return selectedPoint;
         }
+
 
     }
 }

@@ -8,7 +8,6 @@ namespace exercicio
     {
         private readonly List<Poligono> poligonos = new List<Poligono>();
         private Poligono poligonoSelecionado = null;
-        private bool ehPonto = false;
 
         private PoligonoDrawer drawer = null;
 

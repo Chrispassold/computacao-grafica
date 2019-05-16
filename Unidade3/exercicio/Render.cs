@@ -37,6 +37,7 @@ namespace exercicio
             GL.Clear(ClearBufferMask.ColorBufferBit);
             GL.ClearColor(Color.White);
             GL.MatrixMode(MatrixMode.Modelview);
+            GL.LoadIdentity();
 
             mundo.Draw();
 

@@ -15,7 +15,7 @@ namespace exercicio
         public static void Draw(PrimitiveType primitiveType, List<Ponto4D> pontos, Color color)
         {
             GL.LineWidth(3);
-            GL.PointSize(3);
+            GL.PointSize(5);
             GL.Color3(color);
             GL.Begin(primitiveType);
             pontos.ForEach(it =>
