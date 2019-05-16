@@ -13,11 +13,10 @@ namespace exercicio
         readonly BBox bbox = new BBox();
         readonly Transformacao transformacao = new Transformacao();
 
-        PrimitiveType primitiva = PrimitiveType.LineLoop;
         Ponto4D verticeSelecionado;
 
         //R G B
-        int[] cor = new int[3] { 0, 0, 0 };
+        public readonly Cor cor = new Cor();
 
         public Poligono(List<Ponto4D> pontos)
         {
@@ -37,22 +36,16 @@ namespace exercicio
         }
 
         /// <summary>
-        /// Metodo para alteração da primitiva atual do poligono
-        /// </summary>
-        void ChangePrimitive()
-        {
-            primitiva = primitiva.Equals(PrimitiveType.LineLoop) ? PrimitiveType.LineStrip : PrimitiveType.LineLoop;
-        }
-
-        /// <summary>
         /// Metodo para desenhar o poligono
         /// </summary>
         public void Draw()
         {
-            Helper.Draw(primitiva, vertices);
+            Helper.Draw(PrimitiveType.LineLoop, vertices, cor.GetColor());
         }
 
         public void DrawBBox() => bbox.desenhaBBox();
+
+        public bool estaNaBBox(Ponto4D pto) => bbox.estaDentro(pto);
 
         public void SelectVertice(Ponto4D ponto)
         {

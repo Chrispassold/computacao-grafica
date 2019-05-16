@@ -27,6 +27,22 @@ namespace exercicio
 
         }
 
+        public bool estaDentro(Ponto4D pto)
+        {
+            if(pto.X >= menorX && pto.X <= maiorX)
+            {
+                if (pto.Y >= menorY && pto.Y <= maiorY)
+                {
+                    if (pto.Z >= menorZ && pto.Z <= maiorZ)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
         public void atualizarBBox(Ponto4D pto)
         {
             atualizarBBox(pto.X, pto.Y, pto.Z);
@@ -36,22 +52,21 @@ namespace exercicio
         {
             if (x < menorX)
                 menorX = x;
-            else
-            {
-                if (x > maiorX) maiorX = x;
-            }
+
+            if (x > maiorX)
+                maiorX = x;
+
             if (y < menorY)
                 menorY = y;
-            else
-            {
-                if (y > maiorY) maiorY = y;
-            }
+
+            if (y > maiorY)
+                maiorY = y;
+
             if (z < menorZ)
                 menorZ = z;
-            else
-            {
-                if (z > maiorZ) maiorZ = z;
-            }
+
+            if (z > maiorZ)
+                maiorZ = z;
         }
 
         public void processarCentroBBox()

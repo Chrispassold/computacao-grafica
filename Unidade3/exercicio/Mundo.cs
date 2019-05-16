@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using OpenTK.Input;
+using System;
 
 namespace exercicio
 {
@@ -17,11 +18,9 @@ namespace exercicio
         {
             poligonos.ForEach(x => x.Draw());
 
-            if (drawer != null)
-                drawer.Draw();
+            drawer?.Draw();
 
-            if(poligonoSelecionado != null)
-                poligonoSelecionado.DrawBBox();
+            poligonoSelecionado?.DrawBBox();
         }
 
         public void ObserveKey(Key key, Events.State state)
@@ -41,33 +40,71 @@ namespace exercicio
                 }
             }
 
+            //Mudar primitiva
+            if (Key.P.Equals(key))
+                drawer?.ChangePrimitive();
+
+
             //Remove o ultimo poligono selecionado
             if (Key.Delete.Equals(key))
             {
-                if (poligonoSelecionado != null)
-                {
-                    poligonos.Remove(poligonoSelecionado);
-                    poligonoSelecionado = null;
-                }
+                poligonos?.Remove(poligonoSelecionado);
+                poligonoSelecionado = null;
+                drawer = null;
             }
 
+            //Remove seleçao
             if (Key.Escape.Equals(key))
-            {
                 poligonoSelecionado = null;
+
+            //Altera cor
+            if (Key.R.Equals(key) || Key.G.Equals(key) || Key.B.Equals(key))
+            {
+                //Aumenta o vermelho
+                if (Key.R.Equals(key))
+                    poligonoSelecionado?.cor.IncRed();
+
+                //Aumenta o verde
+                if (Key.G.Equals(key))
+                    poligonoSelecionado?.cor.IncGreen();
+
+                //Aumenta o azul
+                if (Key.B.Equals(key))
+                    poligonoSelecionado?.cor.IncBlue();
+
+                Console.WriteLine("Cor: " + key);
             }
+
 
         }
 
         public void ObserveMouseButtomLeft(Events.State state, Events.MousePosition mousePosition)
         {
+
+            if(poligonoSelecionado == null && drawer == null)
+            {
+                if (state.Equals(Events.State.ON))
+                {
+                    foreach (Poligono poligono in poligonos)
+                    {
+                        if (poligono.estaNaBBox(mousePosition.getAsPonto()))
+                        {
+                            poligonoSelecionado = poligono;
+                            break;
+                        }
+                    }
+                }
+            }
+
             //Console.WriteLine("Mouse Left " + mousePosition.ToString());
-            if(poligonoSelecionado == null)
+            if (poligonoSelecionado == null)
             {
                 if (drawer == null)
                     drawer = new PoligonoDrawer();
 
                 if (state.Equals(Events.State.ON))
                     drawer.AddVertice(mousePosition.X, mousePosition.Y);
+
             }
         }
 
@@ -79,10 +116,7 @@ namespace exercicio
         public void ObserveMouseMove(Events.MousePosition mousePosition)
         {
             //Console.WriteLine("Mouse Move " + mousePosition.ToString());
-            if (drawer != null)
-            {
-                drawer.MoveToMouse(mousePosition.X, mousePosition.Y);
-            }
+            drawer?.MoveToMouse(mousePosition.X, mousePosition.Y);
         }
     }
 }

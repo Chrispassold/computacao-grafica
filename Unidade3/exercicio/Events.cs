@@ -44,6 +44,8 @@ namespace exercicio
                 Y = ((int)camera.ymax) - y;
             }
 
+            public Ponto4D getAsPonto() => new Ponto4D(X, Y);
+            
             public override string ToString()
             {
                 return string.Format("x: {0} | y: {1}", X, Y);
