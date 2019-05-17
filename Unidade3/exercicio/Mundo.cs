@@ -80,7 +80,9 @@ namespace exercicio
         public void ObserveMouseButtomLeft(Events.State state, Events.MousePosition mousePosition)
         {
 
-            if(poligonoSelecionado == null && drawer == null)
+            poligonoSelecionado?.SelectVertice(mousePosition.getAsPonto());
+
+            if (poligonoSelecionado == null && drawer == null)
             {
                 if (state.Equals(Events.State.ON))
                 {

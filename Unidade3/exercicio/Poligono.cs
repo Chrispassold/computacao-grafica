@@ -41,28 +41,25 @@ namespace exercicio
         public void Draw()
         {
             Helper.Draw(PrimitiveType.LineLoop, vertices, cor.GetColor());
-            Console.WriteLine(verticeSelecionado?.ToString());
+            //Console.WriteLine(verticeSelecionado?.ToString());
         }
 
         public void DrawBBox() => bbox.desenhaBBox();
 
         public bool estaNaBBox(Ponto4D pto)
         {
-            if (bbox.estaDentro(pto))
-            {
-                SelectVertice(pto);
-                return true;
-            }
-
-            return false;
+            return bbox.estaDentro(pto);
         }
 
         public void SelectVertice(Ponto4D ponto)
         {
-            verticeSelecionado = DistanceManhattan(ponto);
+            if (bbox.estaDentro(ponto))
+            {
+                verticeSelecionado = DistanceManhattan(ponto);
+            }
         }
 
-        
+
         private Ponto4D DistanceManhattan(Ponto4D ponto)
         {
             Ponto4D selectedPoint = null;
