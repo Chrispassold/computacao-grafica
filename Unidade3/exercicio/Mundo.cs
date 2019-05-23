@@ -8,6 +8,7 @@ namespace exercicio
     {
         private readonly List<Poligono> poligonos = new List<Poligono>();
         private Poligono poligonoSelecionado = null;
+        private bool isControlClicked = false;
 
         private PoligonoDrawer drawer = null;
 
@@ -26,6 +27,9 @@ namespace exercicio
         {
             if (state.Equals(Events.State.OFF))
                 return;
+
+
+            isControlClicked = Key.ControlLeft.Equals(key);
 
             //Completa poligono
             if (Key.Space.Equals(key))
@@ -80,15 +84,13 @@ namespace exercicio
         public void ObserveMouseButtomLeft(Events.State state, Events.MousePosition mousePosition)
         {
 
-            poligonoSelecionado?.SelectVertice(mousePosition.getAsPonto());
-
             if (poligonoSelecionado == null && drawer == null)
             {
                 if (state.Equals(Events.State.ON))
                 {
                     foreach (Poligono poligono in poligonos)
                     {
-                        if (poligono.estaNaBBox(mousePosition.getAsPonto()))
+                        if (poligono.clicouDentro(mousePosition.getAsPonto()))
                         {
                             poligonoSelecionado = poligono;
                             break;
@@ -98,6 +100,12 @@ namespace exercicio
             }
 
             //Console.WriteLine("Mouse Left " + mousePosition.ToString());
+
+        }
+
+        public void ObserveMouseButtomRight(Events.State state, Events.MousePosition mousePosition)
+        {
+            //Console.WriteLine("Mouse Right " + mousePosition.ToString());
             if (poligonoSelecionado == null)
             {
                 if (drawer == null)
@@ -107,11 +115,6 @@ namespace exercicio
                     drawer.AddVertice(mousePosition.X, mousePosition.Y);
 
             }
-        }
-
-        public void ObserveMouseButtomRight(Events.State state, Events.MousePosition mousePosition)
-        {
-            //Console.WriteLine("Mouse Right " + mousePosition.ToString());
         }
 
         public void ObserveMouseMove(Events.MousePosition mousePosition)
