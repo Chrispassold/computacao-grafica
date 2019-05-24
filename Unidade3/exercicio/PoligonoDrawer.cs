@@ -7,6 +7,7 @@ namespace exercicio
     {
 
         private readonly List<Ponto4D> pontos = new List<Ponto4D>();
+        private readonly List<Ponto4D> aux = new List<Ponto4D>();
         private Ponto4D ultimoPonto = null;
         PrimitiveType primitiva = PrimitiveType.LineLoop;
 
@@ -22,11 +23,11 @@ namespace exercicio
         {
             Ponto4D p1 = new Ponto4D(x, y);
             Ponto4D p2 = p1.Clone();
+            ultimoPonto = p2;
 
             pontos.Add(p1);
             pontos.Add(p2);
-
-            ultimoPonto = p2;
+            aux.Add(ultimoPonto);
         }
 
         /// <summary>
@@ -41,7 +42,12 @@ namespace exercicio
         /// <summary>
         /// Metodo para retornar o poligono desenhado
         /// </summary>
-        public Poligono Complete() => new Poligono(pontos);
+        public Poligono Complete()
+        {
+            aux.ForEach(it => pontos.Remove(it));
+
+            return new Poligono(pontos);
+        }
 
         /// <summary>
         /// Metodo para alteração da primitiva atual do poligono

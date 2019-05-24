@@ -1,4 +1,4 @@
-using OpenTK;
+using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL;
 using System.Drawing;
 
@@ -21,12 +21,6 @@ namespace exercicio
             processarCentroBBox();
         }
 
-
-        public void scanLine()
-        {
-
-        }
-
         public bool estaDentro(Ponto4D pto)
         {
             if(pto.X >= menorX && pto.X <= maiorX)
@@ -41,6 +35,22 @@ namespace exercicio
             }
 
             return false;
+        }
+
+        private void reset()
+        {
+            menorX = double.MaxValue;
+            menorY = double.MaxValue;
+            menorZ = double.MaxValue;
+            maiorX = 0;
+            maiorY = 0;
+            maiorZ = 0;
+        }
+
+        public void atualizarBBox(List<Ponto4D> ptos)
+        {
+            reset();
+            ptos.ForEach(it => atualizarBBox(it));
         }
 
         public void atualizarBBox(Ponto4D pto)

@@ -45,14 +45,16 @@ namespace exercicio
 
             //Mudar primitiva
             if (Key.P.Equals(key))
+            {
                 drawer?.ChangePrimitive();
+                poligonoSelecionado?.ChangePrimitive();
+            }
 
 
             //Remove o ultimo poligono selecionado
             if (Key.Delete.Equals(key))
             {
-                poligonos?.Remove(poligonoSelecionado);
-                poligonoSelecionado = null;
+                poligonoSelecionado?.RemoverVerticeSelecionado();
                 drawer = null;
             }
 
@@ -78,6 +80,10 @@ namespace exercicio
                 Console.WriteLine("Cor: " + key);
             }
 
+            if(Key.Left.Equals(key) || Key.Right.Equals(key) || Key.Down.Equals(key) || Key.Up.Equals(key))
+            {
+                poligonoSelecionado?.MoverVerticeSelecionado(key);
+            }
 
         }
 
@@ -90,7 +96,7 @@ namespace exercicio
                 {
                     foreach (Poligono poligono in poligonos)
                     {
-                        if (poligono.clicouDentro(mousePosition.getAsPonto()))
+                        if (poligono.ClicouDentro(mousePosition.getAsPonto()))
                         {
                             poligonoSelecionado = poligono;
                             break;

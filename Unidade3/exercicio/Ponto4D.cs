@@ -78,5 +78,25 @@ namespace exercicio
         {
             return string.Format("x:{0}, y:{1}, z:{2}, w:{3}", x, y, z, w);
         }
+
+        public void MoverDireita(double factor)
+        {
+            X = X + factor;
+        }
+
+        public void MoverCima(double factor)
+        {
+            Y = Y + factor;
+        }
+
+        public void MoverEsquerda(double factor)
+        {
+            X = X - factor;
+        }
+
+        public void MoverBaixo(double factor)
+        {
+            Y = Y - factor;
+        }
     }
 }
