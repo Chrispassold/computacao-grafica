@@ -69,5 +69,18 @@ namespace exercicio
             return (pto);
         }
 
+        public static Poligono GetPoligonoSelecionado(List<Poligono> poligonos, Events.MousePosition mousePosition)
+        {
+            foreach (Poligono poligono in poligonos)
+            {
+                if (poligono.ClicouDentro(mousePosition.getAsPonto()))
+                {
+                    return poligono;
+                }
+            }
+
+            return null;
+        }
+
     }
 }

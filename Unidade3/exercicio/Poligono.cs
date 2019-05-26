@@ -9,7 +9,7 @@ namespace exercicio
     {
 
         readonly List<Ponto4D> vertices = new List<Ponto4D>();
-        readonly List<Poligono> children = new List<Poligono>();
+        readonly List<Poligono> filhos = new List<Poligono>();
 
         readonly BBox bbox = new BBox();
         readonly Transformacao4D transformacao = new Transformacao4D();
@@ -42,8 +42,13 @@ namespace exercicio
         /// </summary>
         public void Draw()
         {
+            Console.WriteLine("Desenhando Pai " + filhos.Count);
             Helper.Draw(primitiva, vertices, cor.GetColor(), verticeSelecionado);
-            //Console.WriteLine(verticeSelecionado?.ToString());
+            filhos.ForEach(it =>
+            {
+                Console.WriteLine("Desenhando filho");
+                it.Draw();
+            });
         }
 
         public void DrawBBox() => bbox.desenhaBBox();
@@ -95,7 +100,7 @@ namespace exercicio
             Ponto4D selectedPoint = null;
             double minValue = double.MaxValue;
 
-            foreach(Ponto4D vertice in vertices)
+            foreach (Ponto4D vertice in vertices)
             {
                 double distanceX = vertice.X - ponto.X;
                 double distanceY = vertice.Y - ponto.Y;
@@ -191,6 +196,21 @@ namespace exercicio
         {
             if (verticeSelecionado != null)
                 vertices.Remove(verticeSelecionado);
+        }
+
+        /// <summary>
+        /// Adicionar um filho
+        /// </summary>
+        /// <param name="filho">Filho a ser adicionado</param>
+        public void AddFilho(Poligono filho)
+        {
+            filhos.Add(filho);
+        }
+
+        public void UnselectVerticeSelecionado()
+        {
+            verticeSelecionado = null;
+            filhos.ForEach(it => it.UnselectVerticeSelecionado());
         }
     }
 }

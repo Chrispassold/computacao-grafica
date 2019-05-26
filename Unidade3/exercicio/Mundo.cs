@@ -12,6 +12,8 @@ namespace exercicio
 
         private PoligonoDrawer drawer = null;
 
+        private Events.MousePosition currentMousePosition = null;
+
         public Mundo() => Events.Instance().Observe(this);
 
         public void Draw()
@@ -60,7 +62,10 @@ namespace exercicio
 
             //Remove seleçao
             if (Key.Escape.Equals(key))
+            {
+                poligonos.ForEach(it => it.UnselectVerticeSelecionado());
                 poligonoSelecionado = null;
+            }
 
             //Altera cor
             if (Key.R.Equals(key) || Key.G.Equals(key) || Key.B.Equals(key))
@@ -80,9 +85,23 @@ namespace exercicio
                 Console.WriteLine("Cor: " + key);
             }
 
-            if(Key.Left.Equals(key) || Key.Right.Equals(key) || Key.Down.Equals(key) || Key.Up.Equals(key))
+            if (Key.Left.Equals(key) || Key.Right.Equals(key) || Key.Down.Equals(key) || Key.Up.Equals(key))
             {
                 poligonoSelecionado?.MoverVerticeSelecionado(key);
+            }
+
+            //Adiciona o poligono que esta no ponteiro ao presionar o F como filho do poligono selecionado
+            if (Key.F.Equals(key))
+            {
+                if (poligonoSelecionado != null && currentMousePosition != null)
+                {
+                    Poligono poligonoFilho = Helper.GetPoligonoSelecionado(poligonos, currentMousePosition);
+                    if(poligonoFilho != null)
+                    {
+                        poligonoSelecionado.AddFilho(poligonoFilho);
+                        poligonos.Remove(poligonoFilho);
+                    }
+                }
             }
 
         }
@@ -94,14 +113,8 @@ namespace exercicio
             {
                 if (state.Equals(Events.State.ON))
                 {
-                    foreach (Poligono poligono in poligonos)
-                    {
-                        if (poligono.ClicouDentro(mousePosition.getAsPonto()))
-                        {
-                            poligonoSelecionado = poligono;
-                            break;
-                        }
-                    }
+                    poligonoSelecionado = Helper.GetPoligonoSelecionado(poligonos, mousePosition);
+                    Console.WriteLine("Mouse Left " + mousePosition.ToString());
                 }
             }
 
@@ -127,6 +140,7 @@ namespace exercicio
         {
             //Console.WriteLine("Mouse Move " + mousePosition.ToString());
             drawer?.MoveToMouse(mousePosition.X, mousePosition.Y);
+            currentMousePosition = mousePosition;
         }
     }
 }
