@@ -77,6 +77,12 @@ namespace exercicio
                 {
                     return poligono;
                 }
+
+                if (poligono.GetFilhos().Count > 0)
+                {
+                    return GetPoligonoSelecionado(poligono.GetFilhos(), mousePosition);
+                }
+
             }
 
             return null;

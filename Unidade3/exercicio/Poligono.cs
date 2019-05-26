@@ -12,10 +12,17 @@ namespace exercicio
         readonly List<Poligono> filhos = new List<Poligono>();
 
         readonly BBox bbox = new BBox();
-        readonly Transformacao4D transformacao = new Transformacao4D();
+        private Transformacao4D transformacao = new Transformacao4D();
         private PrimitiveType primitiva = PrimitiveType.LineLoop;
 
         Ponto4D verticeSelecionado = null;
+
+        /// Matrizes temporarias que sempre sao inicializadas com matriz Identidade entao podem ser "static".
+        private static Transformacao4D matrizTmpTranslacao = new Transformacao4D();
+        private static Transformacao4D matrizTmpTranslacaoInversa = new Transformacao4D();
+        private static Transformacao4D matrizTmpEscala = new Transformacao4D();
+        private static Transformacao4D matrizTmpRotacao = new Transformacao4D();
+        private static Transformacao4D matrizGlobal = new Transformacao4D();
 
         //R G B
         public readonly Cor cor = new Cor();
@@ -42,16 +49,22 @@ namespace exercicio
         /// </summary>
         public void Draw()
         {
-            Console.WriteLine("Desenhando Pai " + filhos.Count);
+
+            GL.PushMatrix();
+            GL.MultMatrix(transformacao.GetDate());
+
             Helper.Draw(primitiva, vertices, cor.GetColor(), verticeSelecionado);
-            filhos.ForEach(it =>
-            {
-                Console.WriteLine("Desenhando filho");
-                it.Draw();
-            });
+            filhos.ForEach(it => it.Draw());
+
+            GL.PopMatrix();
         }
 
         public void DrawBBox() => bbox.desenhaBBox();
+
+        internal List<Poligono> GetFilhos()
+        {
+            return filhos;
+        }
 
         /// <summary>
         /// Testa se o ponto enviado esta dentro do poligono ou não
@@ -195,7 +208,11 @@ namespace exercicio
         public void RemoverVerticeSelecionado()
         {
             if (verticeSelecionado != null)
+            {
+                Ponto4D aux = verticeSelecionado.Clone();
                 vertices.Remove(verticeSelecionado);
+                SelectVertice(aux);
+            }
         }
 
         /// <summary>
@@ -207,10 +224,90 @@ namespace exercicio
             filhos.Add(filho);
         }
 
+        /// <summary>
+        /// Remove seleção do vertice do pai e dos filhos
+        /// </summary>
         public void UnselectVerticeSelecionado()
         {
             verticeSelecionado = null;
             filhos.ForEach(it => it.UnselectVerticeSelecionado());
+        }
+
+
+        /// <summary>
+        /// Atribui a identidade a matriz, resetando-a
+        /// </summary>
+        public void atribuirIdentidade()
+        {
+            transformacao.atribuirIdentidade();
+        }
+
+        /// <summary>
+        /// Efetua a translação do objeto de acordo com os parametros
+        /// </summary>
+        /// <param name="tx">Eixo X</param>
+        /// <param name="ty">Eixo Y</param>
+        /// <param name="tz">Eixo Z</param>
+        public void translacaoXYZ(double tx, double ty, double tz)
+        {
+            Transformacao4D matrizTranslate = new Transformacao4D();
+            matrizTranslate.atribuirTranslacao(tx, ty, tz);
+            transformacao = matrizTranslate.transformMatrix(transformacao);
+        }
+
+        /// <summary>
+        /// Efetua a escala, aumentando ou diminuindo a dimensão a partir de um ponto fixo e um fator
+        /// </summary>
+        /// <param name="escala">Fator</param>
+        /// <param name="ptoFixo">Ponto fixo</param>
+        public void escalaXYZ(double escala)
+        {
+
+            Ponto4D ptoFixo = bbox.obterCentro;
+
+            matrizGlobal.atribuirIdentidade();
+
+            matrizTmpTranslacao.atribuirTranslacao(ptoFixo.X, ptoFixo.Y, ptoFixo.Z);
+            matrizGlobal = matrizTmpTranslacao.transformMatrix(matrizGlobal);
+
+            matrizTmpEscala.atribuirEscala(escala, escala, 1.0);
+            matrizGlobal = matrizTmpEscala.transformMatrix(matrizGlobal);
+
+            ptoFixo.inverterSinal();
+            matrizTmpTranslacaoInversa.atribuirTranslacao(ptoFixo.X, ptoFixo.Y, ptoFixo.Z);
+            matrizGlobal = matrizTmpTranslacaoInversa.transformMatrix(matrizGlobal);
+
+            transformacao = transformacao.transformMatrix(matrizGlobal);
+        }
+
+        /// <summary>
+        /// Efetua rotação a partir do angulo eum ponto fixo
+        /// </summary>
+        /// <param name="angulo">Angulo de rotação</param>
+        /// <param name="ptoFixo">Ponto fixo</param>
+        public void rotacaoZ(double angulo)
+        {
+
+            Ponto4D ptoFixo = bbox.obterCentro;
+
+            matrizGlobal.atribuirIdentidade();
+
+            matrizTmpTranslacao.atribuirTranslacao(ptoFixo.X, ptoFixo.Y, ptoFixo.Z);
+            matrizGlobal = matrizTmpTranslacao.transformMatrix(matrizGlobal);
+
+            matrizTmpRotacao.atribuirRotacaoZ(Transformacao4D.DEG_TO_RAD * angulo);
+            matrizGlobal = matrizTmpRotacao.transformMatrix(matrizGlobal);
+
+            ptoFixo.inverterSinal();
+            matrizTmpTranslacaoInversa.atribuirTranslacao(ptoFixo.X, ptoFixo.Y, ptoFixo.Z);
+            matrizGlobal = matrizTmpTranslacaoInversa.transformMatrix(matrizGlobal);
+
+            transformacao = transformacao.transformMatrix(matrizGlobal);
+        }
+
+        public int CountVertices()
+        {
+            return vertices.Count;
         }
     }
 }
