@@ -221,7 +221,8 @@ namespace exercicio
         /// <param name="filho">Filho a ser adicionado</param>
         public void AddFilho(Poligono filho)
         {
-            filhos.Add(filho);
+            if (!filhos.Contains(filho))
+                filhos.Add(filho);
         }
 
         /// <summary>
@@ -264,7 +265,7 @@ namespace exercicio
         {
 
             Ponto4D ptoFixo = bbox.obterCentro;
-
+            Console.WriteLine(ptoFixo.ToString());
             matrizGlobal.atribuirIdentidade();
 
             matrizTmpTranslacao.atribuirTranslacao(ptoFixo.X, ptoFixo.Y, ptoFixo.Z);

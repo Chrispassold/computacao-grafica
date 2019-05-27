@@ -56,6 +56,7 @@ namespace exercicio
         public void atualizarBBox(Ponto4D pto)
         {
             atualizarBBox(pto.X, pto.Y, pto.Z);
+            processarCentroBBox();
         }
 
         public void atualizarBBox(double x, double y, double z)
