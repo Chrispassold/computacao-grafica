@@ -17,7 +17,9 @@ namespace exercicio
             LEFT,
             RIGHT
         }
-
+        /// <summary>
+        /// Posicao do mouse
+        /// </summary>
         public class MousePosition
         {
             public int X { get; set; }
@@ -52,6 +54,9 @@ namespace exercicio
             }
         }
 
+        /// <summary>
+        /// Contract para o trigger
+        /// </summary>
         public interface EventTrigger
         {
             void ObserveKey(Key key, State state);
@@ -73,12 +78,20 @@ namespace exercicio
             return instance;
         }
 
+        /// <summary>
+        /// Adiciona um observable
+        /// </summary>
+        /// <param name="eventTrigger">Observador</param>
         public void Observe(EventTrigger eventTrigger)
         {
             if (eventTrigger != null)
                 observables.Add(eventTrigger);
         }
 
+        /// <summary>
+        /// Envia um evento para todos os observadores quando o quando o mouse é pressionado 
+        /// </summary>
+        /// <param name="e">Evento</param>
         public void OnMousePressChange(MouseButtonEventArgs e)
         {
             State state = e.IsPressed ? State.ON : State.OFF;
@@ -89,11 +102,21 @@ namespace exercicio
                 observables.ForEach(it => it.ObserveMouseButtomRight(state, new MousePosition(e)));
         }
 
+        /// <summary>
+        /// Envia um evento para todos os observadores quando o mouse se move
+        /// </summary>
+        /// <param name="x">Posicao em X</param>
+        /// <param name="y">Posicao em Y</param>
         public void OnMouseMove(int x, int y)
         {
             observables.ForEach(it => it.ObserveMouseMove(new MousePosition(x, y)));
         }
 
+        /// <summary>
+        /// Envia um evento para todos os observadores quando uma tecla é pressionada
+        /// </summary>
+        /// <param name="key">Tecla</param>
+        /// <param name="state">State</param>
         public void OnKeyPressChange(Key key, State state)
         {
             observables.ForEach(it => it.ObserveKey(key, state));

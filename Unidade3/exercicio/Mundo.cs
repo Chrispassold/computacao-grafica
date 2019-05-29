@@ -16,6 +16,9 @@ namespace exercicio
 
         public Mundo() => Events.Instance().Observe(this);
 
+        /// <summary>
+        /// Desenha os elementos no mundo
+        /// </summary>
         public void Draw()
         {
             List<Poligono> toRemove = new List<Poligono>();
@@ -34,6 +37,7 @@ namespace exercicio
             poligonoSelecionado?.DrawBBox();
         }
 
+        //Observa o pressionar das teclas
         public void ObserveKey(Key key, Events.State state)
         {
             if (state.Equals(Events.State.OFF))
@@ -143,23 +147,15 @@ namespace exercicio
                     if (Key.Number6.Equals(key))
                         poligonoSelecionado?.rotacaoZ(-10);
                     break;
-                    /*
-                    if (e.Key == Key.Number3)
-                        objeto_2.rotacaoZPtoFixo(10, new CG_Biblioteca.Ponto4D(-150, -150));
-                    else
-if (e.Key == Key.Number4)
-                        objeto_2.rotacaoZPtoFixo(-10, new CG_Biblioteca.Ponto4D(-150, -150));
-
-                    if (e.Key == Key.Home)
-                        objeto_2.escalaXYZPtoFixo(0.5, new CG_Biblioteca.Ponto4D(-150, -150));
-                    else
-if (e.Key == Key.End)
-                        objeto_2.escalaXYZPtoFixo(2, new CG_Biblioteca.Ponto4D(-150, -150));
-                        */
             }
 
         }
 
+        /// <summary>
+        /// Observa o botão esquerdo
+        /// </summary>
+        /// <param name="state">estado</param>
+        /// <param name="mousePosition">movimentação</param>
         public void ObserveMouseButtomLeft(Events.State state, Events.MousePosition mousePosition)
         {
 
@@ -171,14 +167,15 @@ if (e.Key == Key.End)
                     Console.WriteLine("Mouse Left " + mousePosition.ToString());
                 }
             }
-
-            //Console.WriteLine("Mouse Left " + mousePosition.ToString());
-
         }
 
+        /// <summary>
+        /// Observa o botão direito
+        /// </summary>
+        /// <param name="state">Estado</param>
+        /// <param name="mousePosition">posição mouse</param>
         public void ObserveMouseButtomRight(Events.State state, Events.MousePosition mousePosition)
         {
-            //Console.WriteLine("Mouse Right " + mousePosition.ToString());
             if (poligonoSelecionado == null)
             {
                 if (drawer == null)
@@ -190,9 +187,12 @@ if (e.Key == Key.End)
             }
         }
 
+        /// <summary>
+        /// Observa o movimento do mouse
+        /// </summary>
+        /// <param name="mousePosition"></param>
         public void ObserveMouseMove(Events.MousePosition mousePosition)
         {
-            //Console.WriteLine("Mouse Move " + mousePosition.ToString());
             drawer?.MoveToMouse(mousePosition.X, mousePosition.Y);
             currentMousePosition = mousePosition;
         }

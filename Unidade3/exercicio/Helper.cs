@@ -7,12 +7,23 @@ namespace exercicio
 {
     class Helper
     {
-
+        /// <summary>
+        /// Desenha conforme a primitiva e os pontos informados
+        /// </summary>
+        /// <param name="primitiveType">primitiva</param>
+        /// <param name="pontos">pontos</param>
         public static void Draw(PrimitiveType primitiveType, List<Ponto4D> pontos)
         {
             Draw(primitiveType, pontos, Color.Black);
         }
 
+        /// <summary>
+        /// Desenha conforme a primitiva e os pontos informados
+        /// </summary>
+        /// <param name="primitiveType">primitiva</param>
+        /// <param name="pontos">pontos</param>
+        /// <param name="color">cor</param>
+        /// <param name="pontoSelecionado">poligono selecionado</param>
         public static void Draw(PrimitiveType primitiveType, List<Ponto4D> pontos, Color color, Ponto4D pontoSelecionado = null)
         {
             GL.LineWidth(3);
@@ -30,7 +41,11 @@ namespace exercicio
                 CreateCircle(pontoSelecionado);
             }
         }
-
+        /// <summary>
+        /// Desenha conforme a primitiva e os pontos informados
+        /// </summary>
+        /// <param name="ponto">ponto</param>
+        /// <param name="color">por</param>
         public static void Draw(Ponto4D ponto, Color color)
         {
             GL.LineWidth(3);
@@ -41,6 +56,13 @@ namespace exercicio
             GL.End();
         }
 
+        /// <summary>
+        /// Gera uma cor baseada nos atributos
+        /// </summary>
+        /// <param name="red">Vermelho</param>
+        /// <param name="green">Verde</param>
+        /// <param name="blue">Azul</param>
+        /// <returns>Color</returns>
         public static Color color(int red, int green, int blue)
         {
             return Color.FromArgb(red, green, blue);
@@ -69,6 +91,12 @@ namespace exercicio
             return (pto);
         }
 
+        /// <summary>
+        /// Retorna o ponto mais proximo ao mouse
+        /// </summary>
+        /// <param name="poligonos">poligonos</param>
+        /// <param name="mousePosition">posicao mouse</param>
+        /// <returns>Poligono</returns>
         public static Poligono GetPoligonoSelecionado(List<Poligono> poligonos, Events.MousePosition mousePosition)
         {
             foreach (Poligono poligono in poligonos)

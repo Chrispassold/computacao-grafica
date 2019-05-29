@@ -14,6 +14,10 @@ namespace exercicio
             this.maiorX = maiorX; this.maiorY = maiorY; this.maiorZ = maiorZ;
         }
 
+        /// <summary>
+        /// Iniciar a bbox com o ponto informado
+        /// </summary>
+        /// <param name="pto">Ponto</param>
         public void atribuirBBox(Ponto4D pto)
         {
             menorX = pto.X; menorY = pto.Y; menorZ = pto.Z;
@@ -37,6 +41,9 @@ namespace exercicio
             return false;
         }
 
+        /// <summary>
+        /// Reseta a bbox
+        /// </summary>
         private void reset()
         {
             menorX = double.MaxValue;
@@ -47,18 +54,32 @@ namespace exercicio
             maiorZ = 0;
         }
 
+        /// <summary>
+        /// Atualizar a Bbox inteira, resetando ela e atribuindo novamente
+        /// </summary>
+        /// <param name="ptos"></param>
         public void atualizarBBox(List<Ponto4D> ptos)
         {
             reset();
             ptos.ForEach(it => atualizarBBox(it));
         }
 
+        /// <summary>
+        /// Atualizar a Bbox adicionando um ponto
+        /// </summary>
+        /// <param name="pto"></param>
         public void atualizarBBox(Ponto4D pto)
         {
             atualizarBBox(pto.X, pto.Y, pto.Z);
             processarCentroBBox();
         }
 
+        /// <summary>
+        /// Atualizar a BBox
+        /// </summary>
+        /// <param name="x">valor em X</param>
+        /// <param name="y">Valor em Y</param>
+        /// <param name="z">Valor em Z</param>
         public void atualizarBBox(double x, double y, double z)
         {
             if (x < menorX)
@@ -80,6 +101,9 @@ namespace exercicio
                 maiorZ = z;
         }
 
+        /// <summary>
+        /// Atualiza o centro da bbox
+        /// </summary>
         public void processarCentroBBox()
         {
             centro.X = (maiorX + menorX) / 2;
@@ -87,6 +111,9 @@ namespace exercicio
             centro.Z = (maiorZ + menorZ) / 2;
         }
 
+        /// <summary>
+        /// Desenha a bbox
+        /// </summary>
         public void desenhaBBox()
         {
             GL.Color3(Color.Brown);

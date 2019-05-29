@@ -9,16 +9,27 @@ namespace exercicio
 
         private int factor = 5;
 
+        /// <summary>
+        /// Aumenta o tom de vermelho
+        /// </summary>
         public void IncRed()
         {
             if (Red < 255)
                 Red += factor;
         }
+
+        /// <summary>
+        /// Aumenta o tom de verde
+        /// </summary>
         public void IncGreen()
         {
             if (Green < 255)
                 Green += factor;
         }
+
+        /// <summary>
+        /// Aumenta o tom de azul
+        /// </summary>
         public void IncBlue()
         {
             if (Blue < 255)
