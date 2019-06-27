@@ -11,7 +11,7 @@ namespace TrabalhoFinal
 
         private double xmin, xmax;
 
-        private Camera camera;+
+        private Camera camera;
 
         public Street()
         {

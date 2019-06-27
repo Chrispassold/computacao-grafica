@@ -268,6 +268,7 @@ namespace exercicio
             Console.WriteLine(ptoFixo.ToString());
             matrizGlobal.atribuirIdentidade();
 
+            ptoFixo.inverterSinal();
             matrizTmpTranslacao.atribuirTranslacao(ptoFixo.X, ptoFixo.Y, ptoFixo.Z);
             matrizGlobal = matrizTmpTranslacao.transformMatrix(matrizGlobal);
 
@@ -293,6 +294,7 @@ namespace exercicio
 
             matrizGlobal.atribuirIdentidade();
 
+            ptoFixo.inverterSinal();
             matrizTmpTranslacao.atribuirTranslacao(ptoFixo.X, ptoFixo.Y, ptoFixo.Z);
             matrizGlobal = matrizTmpTranslacao.transformMatrix(matrizGlobal);
 
@@ -302,7 +304,7 @@ namespace exercicio
             ptoFixo.inverterSinal();
             matrizTmpTranslacaoInversa.atribuirTranslacao(ptoFixo.X, ptoFixo.Y, ptoFixo.Z);
             matrizGlobal = matrizTmpTranslacaoInversa.transformMatrix(matrizGlobal);
-
+            
             transformacao = transformacao.transformMatrix(matrizGlobal);
         }
 
