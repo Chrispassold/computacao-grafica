@@ -6,8 +6,6 @@ namespace TrabalhoFinal
     {
 
         Commands commands;
-        Street street;
-        Car car;
         Driver driver;
 
         public Mundo()
@@ -15,25 +13,18 @@ namespace TrabalhoFinal
             commands = Commands.Instance();
             commands.ListenCommands(this);
 
-            street = new Street();
-            car = new Car();
-            driver = new Driver(car, street);
-        }
-
-        private void Reset()
-        {
+            driver = new Driver();
         }
 
         public void Draw()
         {
-            street.Draw();
-            car.Draw();
+            driver.Draw();
         }
 
         public void OnEscape()
         {
             Console.WriteLine("ESCAPE");
-            driver = new Driver(car, street);
+            driver = new Driver();
         }
 
         public void OnLeft()
