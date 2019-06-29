@@ -23,7 +23,7 @@ namespace TrabalhoFinal
             GL.PointSize(10);
             GL.Color3(Color.Orange);
             GL.Begin(PrimitiveType.Points);
-            GL.Vertex2(position.X, position.Y);
+            GL.Vertex3(position.X, position.Y, position.Z);
             GL.End();
         }
 
@@ -36,7 +36,7 @@ namespace TrabalhoFinal
         public void OccursColision()
         {
             if (position.Y == Car.POSITION_YAXIS)
-                if (Car.Instance.GetLine() == line)
+                if (Car.Instance.CurrentLine == line)
                     throw new ColisionException();
 
         }

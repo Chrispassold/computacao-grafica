@@ -1,13 +1,17 @@
 ﻿
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using System;
 
 namespace TrabalhoFinal
 {
     class Car : Drawable
     {
-        private Point4D position = null;
         private int currentLine;
+        private Point4D position;
+
+        private Point4D Position { set => Instance.position = value; get => Instance.position; }
+        public int CurrentLine { set => Instance.currentLine = value; get => Instance.currentLine; }
 
         public const int POSITION_YAXIS = 50;
 
@@ -29,24 +33,23 @@ namespace TrabalhoFinal
 
         public void Draw()
         {
-            if (position == null) return;
+            if (Position == null) return;
 
             GL.PointSize(10);
             GL.Color3(Color.Blue);
             GL.Begin(PrimitiveType.Points);
-            GL.Vertex2(position.X, position.Y);
+            GL.Vertex3(Position.X, Position.Y, Position.Z);
             GL.End();
         }
 
         public void SetPosition(int line, double x)
         {
-            currentLine = line;
-            position = new Point4D(x, POSITION_YAXIS);
+            CurrentLine = line;
+
+            Position = new Point4D(x, 10, POSITION_YAXIS);
         }
 
-        public Point4D GetPosition() => position.Clone();
-
-        public int GetLine() => currentLine;
+        public Point4D GetPosition() => Position.Clone();
 
         public void Reset()
         {

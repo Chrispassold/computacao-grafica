@@ -71,23 +71,23 @@ namespace TrabalhoFinal
 
         private void DrawLimit()
         {
-            var lineLeft1 = new Point4D(xmin, camera.ymax);
-            var lineLeft2 = new Point4D(xmin, camera.ymin);
+            var lineLeft1 = new Point4D(xmin, camera.ymax, camera.zmax);
+            var lineLeft2 = new Point4D(xmin, camera.ymin, camera.zmin);
 
-            var lineRight1 = new Point4D(xmax, camera.ymax);
-            var lineRight2 = new Point4D(xmax, camera.ymin);
+            var lineRight1 = new Point4D(xmax, camera.ymax, camera.zmax);
+            var lineRight2 = new Point4D(xmax, camera.ymin, camera.zmin);
 
             GL.LineWidth(3);
             GL.PointSize(3);
             GL.Color3(Color.Red);
             GL.Begin(PrimitiveType.Lines);
             //limite da esquerda
-            GL.Vertex2(lineLeft1.X, lineLeft1.Y);
-            GL.Vertex2(lineLeft2.X, lineLeft2.Y);
+            GL.Vertex3(lineLeft1.X, lineLeft1.Y, lineLeft1.Z);
+            GL.Vertex3(lineLeft2.X, lineLeft2.Y, lineLeft2.Z);
 
             //limite da direita
-            GL.Vertex2(lineRight1.X, lineRight1.Y);
-            GL.Vertex2(lineRight2.X, lineRight2.Y);
+            GL.Vertex3(lineRight1.X, lineRight1.Y, lineRight1.Z);
+            GL.Vertex3(lineRight2.X, lineRight2.Y, lineLeft2.Z);
 
             GL.End();
         }
@@ -102,8 +102,8 @@ namespace TrabalhoFinal
             GL.Begin(PrimitiveType.Lines);
             for (int i = distanceLines; i < STREET_WIDTH; i += distanceLines)
             {
-                GL.Vertex2(xmin + i, camera.ymax);
-                GL.Vertex2(xmin + i, camera.ymin);
+                GL.Vertex3(xmin + i, camera.ymax, camera.zmax);
+                GL.Vertex3(xmin + i, camera.ymin, camera.zmin);
             }
             GL.End();
         }

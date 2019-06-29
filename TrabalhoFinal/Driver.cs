@@ -17,7 +17,7 @@ namespace TrabalhoFinal
         public Driver()
         {
             currentLine = (int)Math.Ceiling(Street.STREET_QTD_LINES / 2d);
-            speed = 5;
+            speed = 2;
 
             car.Reset();
             street.Reset();
@@ -78,12 +78,18 @@ namespace TrabalhoFinal
             catch (ColisionException)
             {
                 Console.WriteLine("COLISÃO");
+                Stop();
             }
         }
 
         private void IncreaseSpeed()
         {
             speed += 1;
+        }
+
+        private void Stop()
+        {
+            timer.Enabled = false;
         }
     }
 }
