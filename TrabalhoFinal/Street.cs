@@ -49,7 +49,7 @@ namespace TrabalhoFinal
             timer.Enabled = true;
         }
 
-        public void Draw()
+        public new void Draw()
         {
             DrawLimit();
             DrawLines();

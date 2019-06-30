@@ -16,7 +16,7 @@ namespace TrabalhoFinal
             this.line = line;
         }
 
-        public void Draw()
+        public new void Draw()
         {
             if (position == null) return;
 
