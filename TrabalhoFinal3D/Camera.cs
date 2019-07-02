@@ -5,7 +5,21 @@
     /// </summary>
     public class Camera
     {
-        private double xMin, xMax, yMin, yMax, zMin, zMax;
+        private static double xMin, xMax, yMin, yMax, zMin, zMax;
+
+        private static Camera instance = null;
+
+        public static Camera Instance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = new Camera();
+
+                return instance;
+            }
+            private set { instance = value; }
+        }
 
         /// <summary>
         /// Construtor da classe inicializando com valores padrões
@@ -16,12 +30,15 @@
         /// <param name="yMax"></param>
         /// <param name="zMin"></param>
         /// <param name="zMax"></param>
-        public Camera(double xMin = 0, double xMax = 600, double yMin = 0, double yMax = 600, double zMin = -1, double zMax = 1)
+        public static void Initialize(double xMin = 0, double xMax = 600, double yMin = 0, double yMax = 600, double zMin = -1, double zMax = 1)
         {
-            this.xMin = xMin; this.xMax = xMax;
-            this.yMin = yMin; this.yMax = yMax;
-            this.zMin = zMin; this.zMax = zMax;
+            Camera.xMin = xMin; Camera.xMax = xMax;
+            Camera.yMin = yMin; Camera.yMax = yMax;
+            Camera.zMin = zMin; Camera.zMax = zMax;
         }
+       
+        private Camera() { }
+
         public double xmin { get => xMin; set => xMin = value; }
         public double xmax { get => xMax; set => xMax = value; }
         public double ymin { get => yMin; set => yMin = value; }

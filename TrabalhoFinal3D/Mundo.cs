@@ -1,6 +1,6 @@
 ﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using OpenTK.Input;
+using System;
 
 namespace TrabalhoFinal3D
 {
@@ -10,15 +10,11 @@ namespace TrabalhoFinal3D
     /// </summary>
     /// 
 
-    class Mundo
+    class Mundo: Commands.CommandsListener
     {
-        public static Mundo instance = null;
-        private Cubo objeto = new Cubo();
-
-        private Mundo()
-        {
-            objeto.atualizarBBox();
-        }
+        private static Mundo instance = null;
+        private Commands commands;
+        private Driver driver;
 
         public static Mundo getInstance()
         {
@@ -27,63 +23,19 @@ namespace TrabalhoFinal3D
             return instance;
         }
 
-        public void Desenha()
+        private Mundo()
         {
-            SRU3D();
-            objeto.Desenha();
-        }
-        public void MouseMove(int x, int y)
-        {
+            commands = Commands.Instance();
+            commands.ListenCommands(this);
+
+            driver = new Driver();
         }
 
-        public void OnKeyDown(OpenTK.Input.KeyboardKeyEventArgs e)
+        public void Desenha()
         {
-            if (e.Key == Key.M)
-                objeto.exibeMatriz();
-            else
-              if (e.Key == Key.P)
-                objeto.exibePontos();
-            else
-              if (e.Key == Key.R)
-                objeto.atribuirIdentidade();
-            else
-              if (e.Key == Key.Left)
-                objeto.translacaoXYZ(-10, 0, 0);
-            else
-              if (e.Key == Key.Right)
-                objeto.translacaoXYZ(10, 0, 0);
-            else
-              if (e.Key == Key.Up)
-                objeto.translacaoXYZ(0, 10, 0);
-            else
-              if (e.Key == Key.Down)
-                objeto.translacaoXYZ(0, -10, 0);
-            else
-              if (e.Key == Key.PageUp)
-                objeto.escalaXYZ(2, 2);
-            else
-              if (e.Key == Key.PageDown)
-                objeto.escalaXYZ(0.5, 0.5);
-            else
-              if (e.Key == Key.Home)
-                objeto.escalaXYZPtoFixo(0.5, new Ponto4D(-150, -150));
-            else
-              if (e.Key == Key.End)
-                objeto.escalaXYZPtoFixo(2, new Ponto4D(-150, -150));
-            else
-              if (e.Key == Key.Number1)
-                objeto.rotacaoZ(10);
-            else
-              if (e.Key == Key.Number2)
-                objeto.rotacaoZ(-10);
-            if (e.Key == Key.Number3)
-                objeto.rotacaoZPtoFixo(10, new Ponto4D(-150, -150));
-            else
-            if (e.Key == Key.Number4)
-                objeto.rotacaoZPtoFixo(-10, new Ponto4D(-150, -150));
-            else
-            if (e.Key == Key.V)
-                objeto.trocaExibeVetorNormal();
+            // SRU3D();
+
+            driver.Desenhar();
         }
 
         private void SRU3D()
@@ -97,6 +49,24 @@ namespace TrabalhoFinal3D
             GL.Color3(Color.Blue);
             GL.Vertex3(0, 0, 0); GL.Vertex3(0, 0, 200);
             GL.End();
+        }
+
+        public void OnLeft()
+        {
+            Console.WriteLine("LEFT");
+            driver.MoveToLeft();
+        }
+
+        public void OnRight()
+        {
+            Console.WriteLine("RIGHT");
+            driver.MoveToRight();
+        }
+
+        public void OnEscape()
+        {
+            Console.WriteLine("ESCAPE");
+            driver = new Driver();
         }
     }
 }

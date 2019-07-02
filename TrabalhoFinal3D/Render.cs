@@ -2,18 +2,18 @@
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace TrabalhoFinal3D
 {
     class Render : GameWindow
     {
         Mundo mundo = Mundo.getInstance();
-        Camera camera = new Camera();
         Vector3 eye = Vector3.Zero, target = Vector3.Zero, up = Vector3.UnitY;
+        readonly InputObservable listener = InputObservable.Instance();
 
-        public Render(int width, int height) : base(width, height) { }
+        public Render(int width, int height) : base(width, height) {
+            Camera.Initialize();
+        }
 
         protected override void OnLoad(EventArgs e)
         {
@@ -22,9 +22,16 @@ namespace TrabalhoFinal3D
             GL.ClearColor(Color.Gray);                        // Aqui é melhor
             GL.Enable(EnableCap.DepthTest);                   // NOVO
 
-            eye.X = eye.Y = eye.Z = 10;
+            //eye.X = 0;
+            //eye.Y = 10;
+            //eye.Z = -25;
+
+            eye.X = 0;
+            eye.Y = 10;
+            eye.Z = -20;
 
         }
+
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
@@ -63,63 +70,38 @@ namespace TrabalhoFinal3D
             this.SwapBuffers();
         }
 
-        protected override void OnKeyDown(OpenTK.Input.KeyboardKeyEventArgs e)
+        protected override void OnKeyDown(KeyboardKeyEventArgs e)
         {
-            if (e.Key == Key.Q)
-                eye.X = eye.Y = eye.Z = 15;
-            else
-              if (e.Key == Key.W)
-                eye.X = eye.Y = eye.Z = 10;
-            else
-                if (e.Key == Key.E)
-                eye.X = eye.Y = eye.Z = 5;
-            else
-                  if (e.Key == Key.R)
-                eye.X = eye.Y = eye.Z = 1;
-            else
-                  if (e.Key == Key.T)
-                eye.X = eye.Y = eye.Z = 0;
-            else
-                  if (e.Key == Key.Y)
-                eye.X = eye.Y = eye.Z = -1;
-            else
-                  if (e.Key == Key.U)
-                eye.X = eye.Y = eye.Z = -5;
-            else
-                  if (e.Key == Key.I)
-                eye.X = eye.Y = eye.Z = -10;
-            else
-                  if (e.Key == Key.O)
-                eye.X = eye.Y = eye.Z = -15;
-            else
-                  if (e.Key == Key.A)
-                target.X = target.Y = target.Z = 15;
-            else
-                  if (e.Key == Key.S)
-                target.X = target.Y = target.Z = 10;
-            else
-                  if (e.Key == Key.D)
-                target.X = target.Y = target.Z = 5;
-            else
-                  if (e.Key == Key.F)
-                target.X = target.Y = target.Z = 1;
-            else
-                  if (e.Key == Key.G)
-                target.X = target.Y = target.Z = 0;
-            else
-                  if (e.Key == Key.H)
-                target.X = target.Y = target.Z = -1;
-            else
-                  if (e.Key == Key.J)
-                target.X = target.Y = target.Z = -5;
-            else
-                  if (e.Key == Key.K)
-                target.X = target.Y = target.Z = -10;
-            else
-                  if (e.Key == Key.L)
-                target.X = target.Y = target.Z = -15;
 
-            mundo.OnKeyDown(e);
+            switch (e.Key)
+            {
+                case Key.A:
+                    eye.X -= 1;
+                    Console.WriteLine(string.Format("{0} - {1} - {2}", eye.X, eye.Y, eye.Z));
+                    break;
+                case Key.D:
+                    eye.X += 1;
+                    Console.WriteLine(string.Format("{0} - {1} - {2}", eye.X, eye.Y, eye.Z));
+                    break;
+                case Key.W:
+                    eye.Y += 1;
+                    Console.WriteLine(string.Format("{0} - {1} - {2}", eye.X, eye.Y, eye.Z));
+                    break;
+                case Key.S:
+                    eye.Y -= 1;
+                    Console.WriteLine(string.Format("{0} - {1} - {2}", eye.X, eye.Y, eye.Z));
+                    break;
+                case Key.Z:
+                    eye.Z += 1;
+                    Console.WriteLine(string.Format("{0} - {1} - {2}", eye.X, eye.Y, eye.Z));
+                    break;
+                case Key.X:
+                    eye.Z -= 1;
+                    Console.WriteLine(string.Format("{0} - {1} - {2}", eye.X, eye.Y, eye.Z));
+                    break;
+            }
+
+            listener.OnKeyPressChange(e.Key);
         }
 
         protected override void OnMouseMove(MouseMoveEventArgs e)

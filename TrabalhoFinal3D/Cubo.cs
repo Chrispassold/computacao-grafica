@@ -4,28 +4,25 @@ namespace TrabalhoFinal3D
 {
     internal class Cubo : Drawable
     {
-        private bool exibeVetorNormal = false;
         public Cubo()
         {
-            listaPto.Add(new Ponto4D(-1, -1, 1)); // PtoA listaPto[0]
-            listaPto.Add(new Ponto4D(1, -1, 1)); // PtoB listaPto[1]
-            listaPto.Add(new Ponto4D(1, 1, 1)); // PtoC listaPto[2]
-            listaPto.Add(new Ponto4D(-1, 1, 1)); // PtoD listaPto[3]
-            listaPto.Add(new Ponto4D(-1, -1, -1)); // PtoE listaPto[4]
-            listaPto.Add(new Ponto4D(1, -1, -1)); // PtoF listaPto[5]
-            listaPto.Add(new Ponto4D(1, 1, -1)); // PtoG listaPto[6]
-            listaPto.Add(new Ponto4D(-1, 1, -1)); // PtoH listaPto[7]
-            atualizarBBox();
+            AdicionaPto(new Ponto4D(-1, -1, 1), false); // PtoA listaPto[0]
+            AdicionaPto(new Ponto4D(1, -1, 1), false); // PtoB listaPto[1]
+            AdicionaPto(new Ponto4D(1, 1, 1), false); // PtoC listaPto[2]
+            AdicionaPto(new Ponto4D(-1, 1, 1), false); // PtoD listaPto[3]
+            AdicionaPto(new Ponto4D(-1, -1, -1), false); // PtoE listaPto[4]
+            AdicionaPto(new Ponto4D(1, -1, -1), false); // PtoF listaPto[5]
+            AdicionaPto(new Ponto4D(1, 1, -1), false); // PtoG listaPto[6]
+            AdicionaPto(new Ponto4D(-1, 1, -1), false); // PtoH listaPto[7]
+
+            AtualizarBBox();
         }
 
-        public new void Desenha()
+        protected override void Desenha()
         {
-            base.Desenha();
 
             if (listaPto.Count > 0)
             {
-                GL.PushMatrix();
-                GL.MultMatrix(matriz.GetDate());
 
                 GL.Begin(PrimitiveType.Quads);
                 // // Face da frente
@@ -73,32 +70,10 @@ namespace TrabalhoFinal3D
                 GL.End();
             }
 
-            if (exibeVetorNormal)
-                ajudaExibirVetorNormal();
-
-            GL.PopMatrix();
-        }
-        public void ajudaExibirVetorNormal()
-        {
-            GL.LineWidth(3);
-            GL.Color3(1.0, 1.0, 1.0);
-            GL.Begin(PrimitiveType.Lines);
-            // Face da frente
-            GL.Vertex3(0, 0, 0); GL.Vertex3(0, 0, 5);
-            // Face do fundo
-            GL.Vertex3(0, 0, 0); GL.Vertex3(0, 0, -5);
-            // Face de cima
-            GL.Vertex3(0, 0, 0); GL.Vertex3(0, 5, 0);
-            // Face de baixo
-            GL.Vertex3(0, 0, 0); GL.Vertex3(0, -5, 0);
-            // Face da direita
-            GL.Vertex3(0, 0, 0); GL.Vertex3(5, 0, 0);
-            // Face da esquerda
-            GL.Vertex3(0, 0, 0); GL.Vertex3(-5, 0, 0);
-            GL.End();
         }
 
-        public void trocaExibeVetorNormal() => exibeVetorNormal = !exibeVetorNormal;
+
+
 
     }
 }
