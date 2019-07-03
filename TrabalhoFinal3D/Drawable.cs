@@ -9,15 +9,26 @@ namespace TrabalhoFinal3D
         private bool exibeVetorNormal = false;
         protected List<Ponto4D> listaPto = new List<Ponto4D>();
         private BBox bBox = new BBox();
+        private Transformacao4D matriz = new Transformacao4D();
+
+        /// Matrizes temporarias que sempre sao inicializadas com matriz Identidade entao podem ser "static".
+        private static Transformacao4D matrizTmpTranslacao = new Transformacao4D();
+        private static Transformacao4D matrizTmpTranslacaoInversa = new Transformacao4D();
+        private static Transformacao4D matrizGlobal = new Transformacao4D();
 
         protected abstract void Desenha();
 
         public void Desenhar()
         {
+            GL.PushMatrix();
+            GL.MultMatrix(matriz.GetDate());
+
             Desenha();
 
             if (exibeVetorNormal)
                 AjudaExibirVetorNormal();
+
+            GL.PopMatrix();
         }
 
         public void AdicionaPto(Ponto4D pto, bool updateBbox = true)
@@ -69,5 +80,22 @@ namespace TrabalhoFinal3D
         }
 
         public void TrocaExibeVetorNormal() => exibeVetorNormal = !exibeVetorNormal;
+
+        public void AtribuirIdentidade()
+        {
+            matriz.atribuirIdentidade();
+        }
+
+        public void ExibeMatriz()
+        {
+            matriz.exibeMatriz();
+        }
+
+        public void TranslacaoXYZ(double tx, double ty, double tz)
+        {
+            Transformacao4D matrizTranslate = new Transformacao4D();
+            matrizTranslate.atribuirTranslacao(tx, ty, tz);
+            matriz = matrizTranslate.transformMatrix(matriz);
+        }
     }
 }

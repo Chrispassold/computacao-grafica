@@ -3,7 +3,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace TrabalhoFinal3D
 {
-    class Obstacle : Drawable
+    class Obstacle : Cubo
     {
 
         private Ponto4D position = null;
@@ -12,24 +12,17 @@ namespace TrabalhoFinal3D
 
         public Obstacle(int line, Ponto4D startPoint)
         {
+            TamahoAresta(0.5f);
             position = startPoint;
             this.line = line;
-        }
-
-        protected override void Desenha()
-        {
-            if (position == null) return;
-
-            GL.PointSize(10);
-            GL.Color3(Color.Orange);
-            GL.Begin(PrimitiveType.Points);
-            GL.Vertex3(position.X, position.Y, position.Z);
-            GL.End();
         }
 
         public void Move(int speed)
         {
             OccursColision();
+
+
+
             position = new Ponto4D(position.X, position.Y, position.Z - speed);
         }
 
