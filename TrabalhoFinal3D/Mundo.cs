@@ -33,7 +33,7 @@ namespace TrabalhoFinal3D
 
         public void Desenha()
         {
-            // SRU3D();
+             SRU3D();
 
             driver.Desenhar();
         }
@@ -43,11 +43,11 @@ namespace TrabalhoFinal3D
             GL.LineWidth(1);
             GL.Begin(PrimitiveType.Lines);
             GL.Color3(Color.Red);
-            GL.Vertex3(0, 0, 0); GL.Vertex3(200, 0, 0);
+            GL.Vertex3(0, 0, 0); GL.Vertex3(Constants.FAR, 0, 0);
             GL.Color3(Color.Green);
-            GL.Vertex3(0, 0, 0); GL.Vertex3(0, 200, 0);
+            GL.Vertex3(0, 0, 0); GL.Vertex3(0, Constants.FAR, 0);
             GL.Color3(Color.Blue);
-            GL.Vertex3(0, 0, 0); GL.Vertex3(0, 0, 200);
+            GL.Vertex3(0, 0, 0); GL.Vertex3(0, 0, Constants.FAR);
             GL.End();
         }
 

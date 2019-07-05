@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Timers;
 
 namespace TrabalhoFinal3D
 {
     class Driver : Drawable
     {
-
-        public const int DRIVER_INTERVAL_MOVE = 10;
 
         private Car car = Car.Instance;
         private Street street = Street.Instance;
@@ -19,7 +15,7 @@ namespace TrabalhoFinal3D
 
         public Driver()
         {
-            currentLine = (int)Math.Ceiling(Street.STREET_QTD_LINES / 2d);
+            currentLine = (int)Math.Ceiling(Constants.STREET_QTD_LINES / 2d);
             speed = 2;
 
             car.Reset();
@@ -39,7 +35,7 @@ namespace TrabalhoFinal3D
 
         private void StartMove()
         {
-            timer.Interval = DRIVER_INTERVAL_MOVE;
+            timer.Interval = Constants.DRIVER_INTERVAL_MOVE;
             timer.Elapsed += Move;
             timer.Enabled = true;
         }
@@ -86,6 +82,8 @@ namespace TrabalhoFinal3D
             }
         }
 
+
+
         private void IncreaseSpeed()
         {
             speed += 1;
@@ -94,6 +92,7 @@ namespace TrabalhoFinal3D
         private void Stop()
         {
             timer.Enabled = false;
+            street.Stop();
         }
 
 

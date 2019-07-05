@@ -34,8 +34,7 @@ namespace TrabalhoFinal3D
                 initialLine = line;
 
             CurrentLine = line;
-            Console.WriteLine(x);
-            Console.WriteLine(line);
+            Console.WriteLine("Car Line "+line);
 
             if (line.Equals(initialLine))
             {
@@ -45,12 +44,21 @@ namespace TrabalhoFinal3D
             {
                 TranslacaoXYZ(-x, 0, 0);
             }
-            
+
         }
 
         public void Reset()
         {
             instance = new Car();
+        }
+
+        public double DistanceFrom(Obstacle obstacle)
+        {
+            var center = obstacle.CloneCenter();
+
+            if (Instance.Center == null) return center.Z;
+
+            return center.Z - Instance.Center.Z;
         }
 
 

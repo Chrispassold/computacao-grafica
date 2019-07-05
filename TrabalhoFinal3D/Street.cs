@@ -9,17 +9,10 @@ namespace TrabalhoFinal3D
     class Street : Drawable
     {
 
-
-        public const int STREET_QTD_LINES = 3;
-        public const int STREET_WIDTH = STREET_QTD_LINES * 2;
-        public const int STREET_QTD_OBSTACLES_LIMIT = 10;
-        public const int STREET_INTERVAL_ADD_OBSTACLE = 1000;
-
         private double limitLeft, limitRight;
 
         private static Street instance = null;
 
-        private Camera camera = Camera.Instance;
         private Timer timer = new Timer();
         Random random = new Random();
         private readonly List<Obstacle> obstacles = new List<Obstacle>();
@@ -38,22 +31,27 @@ namespace TrabalhoFinal3D
 
         private Street()
         {
-            limitLeft = -(STREET_WIDTH / 2);
-            limitRight = (STREET_WIDTH / 2);
+            limitLeft = -(Constants.STREET_WIDTH / 2);
+            limitRight = (Constants.STREET_WIDTH / 2);
+
+            timer.Interval = Constants.STREET_INTERVAL_ADD_OBSTACLE;
+            timer.Elapsed += AddObstable;
+            timer.Enabled = true;
         }
 
         protected override void Desenha()
         {
             DrawLimit();
             DrawLines();
+            DrawObstacles();
         }
 
         private void DrawLimit()
         {
-            var lineLeft1 = new Ponto4D(limitLeft, 0, 300);
+            var lineLeft1 = new Ponto4D(limitLeft, 0, Constants.STREET_DISTANCE);
             var lineLeft2 = new Ponto4D(limitLeft, 0, 0);
 
-            var lineRight1 = new Ponto4D(limitRight, 0, 300);
+            var lineRight1 = new Ponto4D(limitRight, 0, Constants.STREET_DISTANCE);
             var lineRight2 = new Ponto4D(limitRight, 0, 0);
 
             GL.LineWidth(3);
@@ -73,28 +71,28 @@ namespace TrabalhoFinal3D
 
         private void DrawLines()
         {
-            int distanceLines = STREET_WIDTH / STREET_QTD_LINES;
+            int distanceLines = Constants.STREET_WIDTH / Constants.STREET_QTD_LINES;
 
             GL.LineWidth(3);
             GL.PointSize(3);
             GL.Color3(Color.Orange);
             GL.Begin(PrimitiveType.Lines);
-            for (int i = distanceLines; i < STREET_WIDTH; i += distanceLines)
+            for (int i = distanceLines; i < Constants.STREET_WIDTH; i += distanceLines)
             {
-                GL.Vertex3(limitLeft + i, 0, 300);
+                GL.Vertex3(limitLeft + i, 0, Constants.STREET_DISTANCE);
                 GL.Vertex3(limitLeft + i, 0, 0);
             }
             GL.End();
         }
 
-        public int QuantityLines() => STREET_QTD_LINES;
+        public int QuantityLines() => Constants.STREET_QTD_LINES;
 
         public double GetXAxiosByLine(int line)
         {
-            if (line < 1 || line > STREET_QTD_LINES)
-                throw new System.InvalidOperationException(string.Format("No line %d found", line));
+            if (line < 1 || line > Constants.STREET_QTD_LINES)
+                throw new InvalidOperationException(string.Format("No line %d found", line));
 
-            int distLines = STREET_WIDTH / STREET_QTD_LINES;
+            int distLines = Constants.STREET_WIDTH / Constants.STREET_QTD_LINES;
             var centerLineX = limitLeft + (line * distLines) - (distLines / 2);
 
             return centerLineX;
@@ -126,13 +124,13 @@ namespace TrabalhoFinal3D
 
         private void AddObstable(object source, ElapsedEventArgs e)
         {
-            if (STREET_QTD_OBSTACLES_LIMIT == obstacles.Count) return;
+            if (Constants.STREET_QTD_OBSTACLES_LIMIT == obstacles.Count) return;
 
-            int randomLine = random.Next(1, STREET_QTD_LINES + 1);
+            int randomLine = random.Next(1, Constants.STREET_QTD_LINES + 1);
 
             var XAxios = GetXAxiosByLine(randomLine);
 
-            var obstacle = new Obstacle(randomLine, new Ponto4D(XAxios, 0, camera.ymax + 10));
+            var obstacle = new Obstacle(randomLine, new Ponto4D(XAxios, 0, Constants.STREET_DISTANCE));
 
             obstacles.Add(obstacle);
         }
@@ -140,6 +138,11 @@ namespace TrabalhoFinal3D
         public void Reset()
         {
             instance = new Street();
+        }
+
+        public void Stop()
+        {
+            timer.Enabled = false;
         }
 
     }

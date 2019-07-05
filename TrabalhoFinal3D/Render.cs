@@ -38,7 +38,7 @@ namespace TrabalhoFinal3D
 
             GL.Viewport(ClientRectangle.X, ClientRectangle.Y, ClientRectangle.Width, ClientRectangle.Height);
 
-            Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView((float)Math.PI / 4, Width / (float)Height, 1.0f, 50.0f);
+            Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView((float)Math.PI / 4, Width / (float)Height, Constants.NEAR, Constants.FAR);
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref projection);
         }
@@ -58,14 +58,6 @@ namespace TrabalhoFinal3D
             GL.LoadMatrix(ref modelview);
 
             mundo.Desenha();
-
-            // GL.Begin(BeginMode.Triangles);
-
-            //   GL.Color3(1.0f, 1.0f, 0.0f); GL.Vertex3(-1.0f, -1.0f, 0.0f);
-            //   GL.Color3(1.0f, 0.0f, 0.0f); GL.Vertex3(1.0f, -1.0f, 0.0f);
-            //   GL.Color3(0.2f, 0.9f, 1.0f); GL.Vertex3(0.0f, 1.0f, 0.0f);
-
-            // GL.End();
 
             this.SwapBuffers();
         }

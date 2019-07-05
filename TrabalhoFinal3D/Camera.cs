@@ -30,7 +30,7 @@
         /// <param name="yMax"></param>
         /// <param name="zMin"></param>
         /// <param name="zMax"></param>
-        public static void Initialize(double xMin = 0, double xMax = 600, double yMin = 0, double yMax = 600, double zMin = -1, double zMax = 1)
+        public static void Initialize(double xMin = 0, double xMax = Constants.CAMERA_X, double yMin = 0, double yMax = Constants.CAMERA_Y, double zMin = 0, double zMax = Constants.CAMERA_Z)
         {
             Camera.xMin = xMin; Camera.xMax = xMax;
             Camera.yMin = yMin; Camera.yMax = yMax;
