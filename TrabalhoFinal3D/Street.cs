@@ -2,6 +2,7 @@
 using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Timers;
 
 namespace TrabalhoFinal3D
@@ -122,9 +123,16 @@ namespace TrabalhoFinal3D
             }
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         private void AddObstable(object source, ElapsedEventArgs e)
         {
-            if (Constants.STREET_QTD_OBSTACLES_LIMIT == obstacles.Count) return;
+            if (obstacles.Count > 0)
+            {
+                var last = obstacles[obstacles.Count - 1];
+
+                if (last.CloneCenter().Z > Constants.STREET_DISTANCE_ADD_OBSTACLE)
+                    return;
+            }
 
             int randomLine = random.Next(1, Constants.STREET_QTD_LINES + 1);
 

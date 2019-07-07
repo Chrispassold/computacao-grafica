@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Timers;
 
 namespace TrabalhoFinal3D
@@ -45,13 +46,13 @@ namespace TrabalhoFinal3D
         {
             try
             {
-                currentLine += 1;
+                currentLine -= 1;
                 double xAxios = street.GetXAxiosByLine(currentLine);
                 car.SetPosition(currentLine, xAxios);
             }
             catch (Exception)
             {
-                currentLine -= 1;
+                currentLine += 1;
             }
         }
 
@@ -59,16 +60,17 @@ namespace TrabalhoFinal3D
         {
             try
             {
-                currentLine -= 1;
+                currentLine += 1;
                 double xAxios = street.GetXAxiosByLine(currentLine);
                 car.SetPosition(currentLine, xAxios);
             }
             catch (Exception)
             {
-                currentLine += 1;
+                currentLine -= 1;
             }
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void Move(object source, ElapsedEventArgs e)
         {
             try

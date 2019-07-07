@@ -34,7 +34,6 @@ namespace TrabalhoFinal3D
                 initialLine = line;
 
             CurrentLine = line;
-            Console.WriteLine("Car Line "+line);
 
             if (line.Equals(initialLine))
             {
@@ -42,7 +41,7 @@ namespace TrabalhoFinal3D
             }
             else
             {
-                TranslacaoXYZ(-x, 0, 0);
+                TranslacaoXYZ(x, 0, 0);
             }
 
         }

@@ -14,10 +14,11 @@
 
         //STREET
         public const int STREET_DISTANCE = (int) FAR;
+        public const int STREET_DISTANCE_ADD_OBSTACLE = STREET_DISTANCE - 5;
         public const int STREET_QTD_LINES = 3;
         public const int STREET_WIDTH = STREET_QTD_LINES * 2;
-        public const int STREET_QTD_OBSTACLES_LIMIT = 10;
-        public const int STREET_INTERVAL_ADD_OBSTACLE = 2000;
+        public const int STREET_QTD_OBSTACLES_LIMIT = 1;
+        public const int STREET_INTERVAL_ADD_OBSTACLE = 100;
 
     }
 }

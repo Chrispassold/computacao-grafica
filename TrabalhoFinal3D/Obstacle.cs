@@ -18,20 +18,21 @@ namespace TrabalhoFinal3D
         {
             lock (Center)
             {
-                OccursColision();
+                OccursColision(speed);
                 Center = new Ponto4D(Center.X, Center.Y, Center.Z - speed);
-                Console.WriteLine("Line OBSTACULO: " + Center.ToString());
             }
         }
 
-        public void OccursColision()
+        private void OccursColision(int speed)
         {
-            if (Center.Z <= 2)
+            if ((Center.Z - speed) == 0)
+            {
                 if (Car.Instance.CurrentLine == line)
                 {
-                    Console.WriteLine(Center.ToString());
                     throw new ColisionException();
                 }
+            }
+
         }
 
         public bool IsOutOfScreen() => Center.Z < -2;
