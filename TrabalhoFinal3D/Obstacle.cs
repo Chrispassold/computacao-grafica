@@ -14,7 +14,7 @@ namespace TrabalhoFinal3D
             TamahoAresta(0.5f);
         }
 
-        public void Move(int speed)
+        public void Move(double speed)
         {
             lock (Center)
             {
@@ -23,9 +23,13 @@ namespace TrabalhoFinal3D
             }
         }
 
-        private void OccursColision(int speed)
+        private void OccursColision(double speed)
         {
-            if ((Center.Z - speed) == 0)
+
+            if(speed == Constants.DRIVER_MAX_SPEED)
+                Console.WriteLine(Center.Z - speed);
+
+            if (Center.Z > 0 && (Center.Z - speed) <= 0)
             {
                 if (Car.Instance.CurrentLine == line)
                 {

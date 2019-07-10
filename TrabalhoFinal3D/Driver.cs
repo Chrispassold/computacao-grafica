@@ -4,7 +4,7 @@ using System.Timers;
 
 namespace TrabalhoFinal3D
 {
-    class Driver : Drawable
+    class Driver : Drawable, Street.StreetListener
     {
 
         private Car car = Car.Instance;
@@ -12,15 +12,19 @@ namespace TrabalhoFinal3D
         private Timer timer = new Timer();
 
         private int currentLine;
-        private int speed;
+        private double speed;
+
+        private int qtdObstaclesPassed = 0;
 
         public Driver()
         {
             currentLine = (int)Math.Ceiling(Constants.STREET_QTD_LINES / 2d);
-            speed = 2;
+            speed = Constants.DRIVER_INITIAL_SPEED;
 
             car.Reset();
             street.Reset();
+
+            street.AddStreetListener(this);
 
             double xAxios = street.GetXAxiosByLine(currentLine);
             car.SetPosition(currentLine, xAxios);
@@ -84,11 +88,9 @@ namespace TrabalhoFinal3D
             }
         }
 
-
-
         private void IncreaseSpeed()
         {
-            speed += 1;
+            speed += Constants.DRIVER_INC_SPEED_RATE;
         }
 
         private void Stop()
@@ -97,7 +99,22 @@ namespace TrabalhoFinal3D
             street.Stop();
         }
 
+        public void OnObstacleRemoved()
+        {
+            qtdObstaclesPassed++;
+            if (qtdObstaclesPassed == Constants.DRIVER_OBSTACLES_INC_SPEED)
+            {
+                qtdObstaclesPassed = 0;
+                if (speed < Constants.DRIVER_MAX_SPEED)
+                {
+                    IncreaseSpeed();
 
-
+                    if (speed == Constants.DRIVER_MAX_SPEED)
+                        Console.WriteLine("MAX SPEED");
+                    else
+                        Console.WriteLine("Speed = " + speed);
+                }
+            }
+        }
     }
 }

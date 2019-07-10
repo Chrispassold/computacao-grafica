@@ -33,7 +33,7 @@ namespace TrabalhoFinal3D
 
         public void Desenha()
         {
-             SRU3D();
+             //SRU3D();
 
             driver.Desenhar();
         }
@@ -53,19 +53,19 @@ namespace TrabalhoFinal3D
 
         public void OnLeft()
         {
-            Console.WriteLine("LEFT");
+            //Console.WriteLine("LEFT");
             driver.MoveToLeft();
         }
 
         public void OnRight()
         {
-            Console.WriteLine("RIGHT");
+            //Console.WriteLine("RIGHT");
             driver.MoveToRight();
         }
 
         public void OnEscape()
         {
-            Console.WriteLine("ESCAPE");
+            //Console.WriteLine("ESCAPE");
             driver = new Driver();
         }
     }

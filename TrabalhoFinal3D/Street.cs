@@ -17,6 +17,7 @@ namespace TrabalhoFinal3D
         private Timer timer = new Timer();
         Random random = new Random();
         private readonly List<Obstacle> obstacles = new List<Obstacle>();
+        private readonly List<StreetListener> listeners = new List<StreetListener>();
 
         public static Street Instance
         {
@@ -107,13 +108,16 @@ namespace TrabalhoFinal3D
                 var next = obstacles[i];
 
                 if (next.IsOutOfScreen())
+                {
                     obstacles.Remove(next);
+                    listeners.ForEach(x => x.OnObstacleRemoved());
+                }
                 else
                     next.Desenhar();
             }
         }
 
-        public void Move(int speed)
+        public void Move(double speed)
         {
             for (int i = 0; i < obstacles.Count; i++)
             {
@@ -151,6 +155,16 @@ namespace TrabalhoFinal3D
         public void Stop()
         {
             timer.Enabled = false;
+        }
+
+        public void AddStreetListener(StreetListener listener)
+        {
+            listeners.Add(listener);
+        }
+
+        public interface StreetListener
+        {
+            void OnObstacleRemoved();
         }
 
     }
