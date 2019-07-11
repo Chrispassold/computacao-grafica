@@ -26,15 +26,9 @@ namespace TrabalhoFinal3D
         private void OccursColision(double speed)
         {
 
-            if(speed == Constants.DRIVER_MAX_SPEED)
-                Console.WriteLine(Center.Z - speed);
-
-            if (Center.Z > 0 && (Center.Z - speed) <= 0)
+            if (Center.Z > 0 && (Center.Z - speed) <= 0 && Car.Instance.CurrentLine == line)
             {
-                if (Car.Instance.CurrentLine == line)
-                {
-                    throw new ColisionException();
-                }
+                throw new ColisionException();
             }
 
         }
